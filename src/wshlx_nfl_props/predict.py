@@ -14,6 +14,14 @@ def american_to_implied(odds):
     return 100 / (odds + 100) if odds > 0 else (-odds) / ((-odds) + 100)
 
 
+def fair_pair(odds_a, odds_b):
+    a = american_to_implied(odds_a)
+    b = american_to_implied(odds_b)
+    if np.isnan(a) or np.isnan(b) or (a + b) <= 0:
+        return np.nan, np.nan
+    return a / (a + b), b / (a + b)
+
+
 def _next_game(team: str, schedules: pd.DataFrame, season: int):
     if schedules is None or schedules.empty:
         return None
@@ -97,7 +105,13 @@ def predict_lines(lines: pd.DataFrame, player_stats: pd.DataFrame, schedules: pd
             side = "OVER" if p_over >= 0.5 else "UNDER"
             p_side = p_over if p_over >= 0.5 else 1 - p_over
             offered = line.get("over_odds" if side == "OVER" else "under_odds", np.nan)
-        implied = american_to_implied(offered)
+        if line.prop == "sack_yes":
+            implied = american_to_implied(offered)
+        else:
+            fair_over, fair_under = fair_pair(line.get("over_odds", np.nan), line.get("under_odds", np.nan))
+            implied = fair_over if side == "OVER" else fair_under
+            if np.isnan(implied):
+                implied = american_to_implied(offered)
         edge = p_side - implied if not np.isnan(implied) else np.nan
         official = p_side >= probability_floor and (np.isnan(edge) or edge >= min_prob_edge)
         points.append(point); probs.append(p_side); sides.append(side); edges.append(edge); labels.append("BET" if official else "PASS"); algorithms.append(model.estimator_name)
