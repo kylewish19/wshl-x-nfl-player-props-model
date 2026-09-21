@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "wshlx-nfl-player-props"
-version = "0.2.0"
+version = "0.3.0"
 description = "Leakage-tested NFL player prop modeling pipeline"
 requires-python = ">=3.11"
 
