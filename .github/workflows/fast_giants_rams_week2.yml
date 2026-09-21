@@ -1,0 +1,31 @@
+name: Fast Giants Rams Week 2 official prediction
+on:
+  push:
+    paths:
+      - '.github/workflows/fast_giants_rams_week2.yml'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - uses: actions/download-artifact@v4
+        with:
+          name: nfl-player-props-official-v0.3
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35658840918
+          path: .
+      - run: find models -maxdepth 3 -type f | head -30
+      - run: python scripts/predict_props.py inputs/2026_week2_giants_rams_supported.csv --model-root models/official --out predictions/2026_week2_giants_rams_official_fast.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: giants-rams-week2-official-fast
+          path: predictions/2026_week2_giants_rams_official_fast.csv
