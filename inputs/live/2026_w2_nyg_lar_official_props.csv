@@ -1,0 +1,32 @@
+player_display_name,team,prop,line,over_odds,under_odds,yes_odds
+Matthew Stafford,LAR,qb_pass_yds,238.5,-113,-113,
+Jaxson Dart,NYG,qb_pass_yds,213.5,-113,-113,
+Matthew Stafford,LAR,qb_pass_tds,1.5,-178,136,
+Jaxson Dart,NYG,qb_pass_tds,1.5,185,-250,
+Matthew Stafford,LAR,qb_rush_yds,0.5,172,-225,
+Jaxson Dart,NYG,qb_rush_yds,33.5,-113,-113,
+Devin Singletary,NYG,rb_rush_yds,11.5,-113,-113,
+Blake Corum,LAR,rb_rush_yds,47.5,-113,-113,
+Kyren Williams,LAR,rb_rush_yds,63.5,-113,-113,
+Cam Skattebo,NYG,rb_rush_yds,51.5,-113,-113,
+Malachi Fields,NYG,rec_yds,26.5,-113,-113,
+Xavier Smith,LAR,rec_yds,17.5,-113,-113,
+Odell Beckham Jr.,NYG,rec_yds,5.5,114,-146,
+Darnell Mooney,NYG,rec_yds,19.5,-113,-113,
+Devin Singletary,NYG,rec_yds,7.5,-113,-113,
+Blake Corum,LAR,rec_yds,3.5,-102,-125,
+Kyren Williams,LAR,rec_yds,16.5,-113,-113,
+Konata Mumpfield,LAR,rec_yds,18.5,-113,-113,
+Cam Skattebo,NYG,rec_yds,11.5,-113,-113,
+Malik Nabers,NYG,rec_yds,60.5,-113,-113,
+Davante Adams,LAR,rec_yds,62.5,-113,-113,
+Aaron Donald,LAR,sack_yes,0.5,,,144
+Byron Young,LAR,sack_yes,0.5,,,144
+Kobie Turner,LAR,sack_yes,0.5,,,178
+Brian Burns,NYG,sack_yes,0.5,,,182
+Abdul Carter,NYG,sack_yes,0.5,,,198
+Josaiah Stewart,NYG,sack_yes,0.5,,,270
+Kayvon Thibodeaux,NYG,sack_yes,0.5,,,310
+Braden Fiske,LAR,sack_yes,0.5,,,350
+Arvell Reese,NYG,sack_yes,0.5,,,350
+Poona Ford,LAR,sack_yes,0.5,,,490
