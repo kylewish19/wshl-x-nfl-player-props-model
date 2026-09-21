@@ -73,6 +73,8 @@ def build_prop_rows(history: pd.DataFrame, lines: pd.DataFrame, schedules: pd.Da
             "player_display_name": last.player_display_name, "position": last.position,
             "team": team, "opponent_team": opp or "UNK", "__prediction_row": i,
         })
+        if "season_type" in hist.columns:
+            row["season_type"] = "REG"
         placeholders.append(row)
     h = hist.copy(); h["__prediction_row"] = np.nan
     combined = pd.concat([h, pd.DataFrame(placeholders)], ignore_index=True, sort=False)
