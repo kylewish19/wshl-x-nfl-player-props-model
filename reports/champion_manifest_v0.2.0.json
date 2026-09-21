@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "status": "clean_champion",
+  "methodology": {
+    "development": "2021-2023",
+    "selection": 2024,
+    "final_test": 2025,
+    "live_refit": "all completed data through current 2026 refresh"
+  },
+  "champions": {
+    "qb_pass_yds": {"feature_set":"enriched","algorithm":"random_forest","test_mae":66.46114172732625},
+    "qb_pass_tds": {"feature_set":"baseline","algorithm":"poisson_glm","test_poisson_deviance":1.1423476065293028,"test_mae":0.903165105665325},
+    "qb_rush_yds": {"feature_set":"baseline","algorithm":"elastic_net","test_mae":11.448610507302924},
+    "rb_rush_yds": {"feature_set":"baseline","algorithm":"elastic_net","test_mae":18.84481101184045},
+    "rec_yds": {"feature_set":"baseline","algorithm":"elastic_net","test_mae":16.241779879788613},
+    "sack_yes": {"feature_set":"enriched","algorithm":"hist_gbc","test_brier":0.13307434710125626,"test_auc":0.7264171702211889}
+  },
+  "note": "v0.1.0 validation is invalidated due to leakage discovered during audit. v0.2.0 is the first clean chronological benchmark."
+}
