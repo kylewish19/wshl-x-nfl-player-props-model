@@ -1,0 +1,32 @@
+name: Run Giants Rams Week 2 card
+on:
+  push:
+    paths:
+      - '.github/workflows/run_2026_w2_nyg_lar.yml'
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/train_official.py
+      - run: python scripts/train_addon_props.py
+      - run: python scripts/train_game_markets.py
+      - run: python scripts/predict_props.py inputs/live/2026_w2_nyg_lar_official_props.csv --out predictions/2026_w2_nyg_lar_official.csv --model-root models/official
+      - run: python scripts/predict_props.py inputs/live/2026_w2_nyg_lar_addon_props.csv --out predictions/2026_w2_nyg_lar_addon.csv --model-root models/addon_v01
+      - run: python scripts/predict_game_markets.py inputs/live/2026_w2_nyg_lar_game.csv --out predictions/2026_w2_nyg_lar_game.csv --model-root models/game_markets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: giants-rams-week2-card
+          path: |
+            predictions/2026_w2_nyg_lar_official.csv
+            predictions/2026_w2_nyg_lar_addon.csv
+            predictions/2026_w2_nyg_lar_game.csv
+            reports/addon_v0.1.0_validation.json
+            reports/game_markets_v0.1.0.json
