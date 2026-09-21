@@ -1,0 +1,26 @@
+name: Run Giants Rams Week 2 official props
+on:
+  push:
+    paths:
+      - '.github/workflows/run_giants_rams_week2.yml'
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/train_official.py
+      - run: python scripts/predict_props.py inputs/2026_week2_giants_rams_supported.csv --model-root models/official --out predictions/2026_week2_giants_rams_official.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: giants-rams-week2-official-props
+          path: |
+            predictions/2026_week2_giants_rams_official.csv
+            reports/official_refit.json
+            models/official/
