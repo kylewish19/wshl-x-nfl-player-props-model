@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from .enrichment import merge_auxiliary
 from .pregame import add_pregame_context
+from .matchup import add_matchup_context
 
 PLAYER_ID_ALIASES = ["player_id", "gsis_id", "player_gsis_id"]
 PLAYER_NAME_ALIASES = ["player_display_name", "player_name", "name"]
@@ -126,6 +127,7 @@ def build_feature_frame(player_stats: pd.DataFrame, schedules: pd.DataFrame | No
     x = attach_opponents(x, schedules)
     x = add_pregame_context(x, schedules, (auxiliary or {}).get("injuries"))
     x = add_pbp_team_context(x, pbp)
+    x = add_matchup_context(x, pbp, windows=tuple(w for w in windows if w <= 5) or (3,5))
     x = merge_auxiliary(x, auxiliary)
     x = x.sort_values(["player_id", "season", "week"]).reset_index(drop=True)
 
@@ -204,29 +206,42 @@ def _is_derived_feature(c: str) -> bool:
 def model_feature_columns(frame: pd.DataFrame, feature_set: str = "enriched") -> tuple[list[str], list[str]]:
     """Return only features known before kickoff.
 
-    This intentionally rejects raw current-game usage, team-volume and auxiliary values.
+    Feature blocks are explicit so challengers can be tested without changing
+    an existing champion's inputs:
+      baseline          = historical player/team features only
+      enriched          = baseline + lagged snap/NGS/PFR
+      pregame           = baseline + injuries/game environment
+      matchup           = baseline + team/opponent PBP rolling context
+      full              = baseline + enriched + pregame
+      *_matchup         = the named block plus matchup context
     """
     exclude = {
         "passing_yards", "passing_tds", "rushing_yards", "receiving_yards", "def_sacks",
         "player_id", "player_display_name", "season_type", "game_id", "fantasy_points", "fantasy_points_ppr"
     }
+    include_aux = feature_set in {"enriched","full","enriched_matchup","full_matchup"}
+    include_pregame = feature_set in {"pregame","full","pregame_matchup","full_matchup"}
+    include_matchup = feature_set in {"matchup","baseline_matchup","enriched_matchup","pregame_matchup","full_matchup"}
+
     numeric = []
-    for c in frame.columns:
-        if c in exclude or not pd.api.types.is_numeric_dtype(frame[c]):
+    for col in frame.columns:
+        if col in exclude or not pd.api.types.is_numeric_dtype(frame[col]):
             continue
-        if not _is_derived_feature(c):
+        if not _is_derived_feature(col):
             continue
-        is_aux = c.startswith(AUX_PREFIXES)
-        is_pregame = c.startswith("pregame_")
-        if feature_set == "baseline" and (is_aux or is_pregame):
+        is_aux = col.startswith(AUX_PREFIXES)
+        is_pregame = col.startswith("pregame_")
+        is_matchup = col.startswith("teamctx_") or col.startswith("oppctx_")
+        if is_aux and not include_aux:
             continue
-        if feature_set == "enriched" and is_pregame:
+        if is_pregame and not include_pregame:
             continue
-        if feature_set == "pregame" and is_aux:
+        if is_matchup and not include_matchup:
             continue
-        numeric.append(c)
+        numeric.append(col)
+
     categorical_candidates = ["position_group_model", "team", "opponent_team"]
-    if feature_set in {"pregame", "full"}:
+    if include_pregame:
         categorical_candidates += ["pregame_report_status", "pregame_practice_status", "pregame_roof", "pregame_surface"]
-    categorical = [c for c in categorical_candidates if c in frame.columns]
+    categorical = [col for col in categorical_candidates if col in frame.columns]
     return sorted(set(numeric)), categorical
