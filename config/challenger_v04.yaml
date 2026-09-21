@@ -1,0 +1,10 @@
+version: 0.4.0-shadow
+status: shadow_challenger
+purpose: Isolate leakage-safe team/opponent PBP matchup context against the frozen v0.3 champion.
+challengers:
+  qb_pass_yds: {feature_set: pregame_matchup, algorithm: random_forest}
+  qb_pass_tds: {feature_set: pregame_matchup, algorithm: poisson_glm}
+  qb_rush_yds: {feature_set: baseline_matchup, algorithm: elastic_net}
+  rb_rush_yds: {feature_set: baseline_matchup, algorithm: elastic_net}
+  rec_yds: {feature_set: baseline_matchup, algorithm: elastic_net}
+  sack_yes: {feature_set: enriched_matchup, algorithm: hist_gbc}
