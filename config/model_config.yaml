@@ -1,0 +1,34 @@
+project: WSHL_X NFL Player Props
+version: 0.1.0
+seasons: [2021, 2022, 2023, 2024, 2025, 2026]
+holdout_season: 2025
+min_history_games: 3
+rolling_windows: [3, 5, 8]
+random_state: 42
+official_probability_floor: 0.57
+minimum_probability_edge: 0.04
+models:
+  qb_pass_yds:
+    target: passing_yards
+    positions: [QB]
+    kind: regression
+  qb_pass_tds:
+    target: passing_tds
+    positions: [QB]
+    kind: count
+  qb_rush_yds:
+    target: rushing_yards
+    positions: [QB]
+    kind: regression
+  rb_rush_yds:
+    target: rushing_yards
+    positions: [RB, FB]
+    kind: regression
+  rec_yds:
+    target: receiving_yards
+    positions: [WR, RB, FB]
+    kind: regression
+  sack_yes:
+    target: def_sacks
+    positions: [DE, DT, DL, OLB, LB, EDGE]
+    kind: binary
