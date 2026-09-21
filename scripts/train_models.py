@@ -34,7 +34,7 @@ for prop, spec in cfg["models"].items():
         test_season=cfg["test_season"],
         min_history_games=cfg["min_history_games"],
         seed=cfg["random_state"],
-        feature_sets=("baseline", "enriched"),
+        feature_sets=("baseline", "enriched", "pregame", "full"),
     )
     save_model(m)
     report[prop] = {
