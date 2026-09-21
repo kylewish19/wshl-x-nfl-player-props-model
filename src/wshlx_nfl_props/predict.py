@@ -46,13 +46,17 @@ def build_prop_rows(history: pd.DataFrame, lines: pd.DataFrame, schedules: pd.Da
     placeholders = []
     for i, line in lines.reset_index(drop=True).iterrows():
         name = str(line.player_display_name)
-        matches = hist[hist.player_display_name.str.lower() == name.lower()].sort_values(["season", "week"])
+        matches = hist[hist.player_display_name.str.lower() == name.lower()].copy()
+        supplied_team = line.get("team", None)
+        if not pd.isna(supplied_team) and supplied_team:
+            team_matches = matches[matches["team"].astype(str).str.upper() == str(supplied_team).upper()]
+            if not team_matches.empty:
+                matches = team_matches
+        matches = matches.sort_values(["season", "week"])
         if matches.empty:
             raise KeyError(f"Player not found in history: {name}")
         last = matches.iloc[-1]
-        team = line.get("team", last.team)
-        if pd.isna(team) or not team:
-            team = last.team
+        team = supplied_team if (not pd.isna(supplied_team) and supplied_team) else last.team
         ng = _next_game(team, schedules, max_season)
         opp = line.get("opponent", None)
         if pd.isna(opp): opp = None
