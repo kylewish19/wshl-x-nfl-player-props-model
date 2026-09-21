@@ -21,8 +21,8 @@ for year in [2023,2024,2025]:
     if "spread_line" in y:
         z=y[y.actual_margin.notna() & y.spread_line.notna()]
         if len(z):
-            # nflverse spread_line is home-team handicap, so expected home margin is -spread_line.
-            out["closing_spread_margin_mae"]=float(mean_absolute_error(z.actual_margin,-pd.to_numeric(z.spread_line)))
+            # nflverse spread_line is the home-team closing margin convention: positive means home favored.
+            out["closing_spread_margin_mae"]=float(mean_absolute_error(z.actual_margin,pd.to_numeric(z.spread_line)))
             out["closing_spread_rows"]=int(len(z))
     if "total_line" in y:
         z=y[y.actual_total.notna() & y.total_line.notna()]
