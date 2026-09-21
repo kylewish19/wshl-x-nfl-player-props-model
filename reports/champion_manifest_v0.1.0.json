@@ -1,0 +1,15 @@
+{
+  "version":"0.1.0",
+  "status":"baseline_champion",
+  "training_data":"2021 through all completed/available 2026 games at refresh time",
+  "algorithm_selection_holdout":2025,
+  "champions":{
+    "qb_pass_yds":"random_forest",
+    "qb_pass_tds":"poisson_hist_gbr",
+    "qb_rush_yds":"random_forest",
+    "rb_rush_yds":"random_forest",
+    "rec_yds":"random_forest",
+    "sack_yes":"hist_gbc"
+  },
+  "promotion_rule":"Future challenger versions must improve out-of-sample validation/calibration and survive weekly grading diagnostics before replacing these champions."
+}
