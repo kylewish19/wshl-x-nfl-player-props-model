@@ -4,6 +4,7 @@ import re
 import numpy as np
 import pandas as pd
 from .enrichment import merge_auxiliary
+from .pregame import add_pregame_context
 
 PLAYER_ID_ALIASES = ["player_id", "gsis_id", "player_gsis_id"]
 PLAYER_NAME_ALIASES = ["player_display_name", "player_name", "name"]
@@ -123,6 +124,7 @@ def build_feature_frame(player_stats: pd.DataFrame, schedules: pd.DataFrame | No
                         auxiliary: dict[str, pd.DataFrame] | None = None) -> pd.DataFrame:
     x = normalize_player_stats(player_stats)
     x = attach_opponents(x, schedules)
+    x = add_pregame_context(x, schedules, (auxiliary or {}).get("injuries"))
     x = add_pbp_team_context(x, pbp)
     x = merge_auxiliary(x, auxiliary)
     x = x.sort_values(["player_id", "season", "week"]).reset_index(drop=True)
@@ -195,6 +197,7 @@ def _is_derived_feature(c: str) -> bool:
         or c.endswith("_ewm")
         or re.search(r"_r\d+$", c) is not None
         or c in {"season", "week", "history_games"}
+        or c.startswith("pregame_")
     )
 
 
@@ -213,8 +216,17 @@ def model_feature_columns(frame: pd.DataFrame, feature_set: str = "enriched") ->
             continue
         if not _is_derived_feature(c):
             continue
-        if feature_set == "baseline" and c.startswith(AUX_PREFIXES):
+        is_aux = c.startswith(AUX_PREFIXES)
+        is_pregame = c.startswith("pregame_")
+        if feature_set == "baseline" and (is_aux or is_pregame):
+            continue
+        if feature_set == "enriched" and is_pregame:
+            continue
+        if feature_set == "pregame" and is_aux:
             continue
         numeric.append(c)
-    categorical = [c for c in ["position_group_model", "team", "opponent_team"] if c in frame.columns]
+    categorical_candidates = ["position_group_model", "team", "opponent_team"]
+    if feature_set in {"pregame", "full"}:
+        categorical_candidates += ["pregame_report_status", "pregame_practice_status", "pregame_roof", "pregame_surface"]
+    categorical = [c for c in categorical_candidates if c in frame.columns]
     return sorted(set(numeric)), categorical
