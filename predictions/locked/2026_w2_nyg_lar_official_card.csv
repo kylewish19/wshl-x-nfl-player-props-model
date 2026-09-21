@@ -1,0 +1,11 @@
+model_version,season,week,game,player,prop,line,pick,odds,model_projection,model_probability,edge_vs_fair_price,final_status,reason
+v0.3.0,2026,2,NYG@LAR,Jaxson Dart,Passing TDs,1.5,UNDER,-250,0.66,0.857,0.187,BET,Strong model signal
+v0.3.0,2026,2,NYG@LAR,Jaxson Dart,Rushing Yards,33.5,UNDER,-113,17.97,0.849,0.349,BET,Strong model signal
+v0.3.0,2026,2,NYG@LAR,Matthew Stafford,Passing TDs,1.5,UNDER,136,1.06,0.715,0.317,BET,Puka inactive supports lower TD ceiling
+v0.3.0,2026,2,NYG@LAR,Matthew Stafford,Rushing Yards,0.5,UNDER,-225,-5.56,0.738,0.084,BET,QB rushing target includes kneel effects
+v0.3.0,2026,2,NYG@LAR,Devin Singletary,Rushing Yards,11.5,OVER,-113,25.69,0.759,0.259,BET,Model plus Week 1 16 rushing yards on 6 carries
+v0.3.0,2026,2,NYG@LAR,Blake Corum,Rushing Yards,47.5,UNDER,-113,43.01,0.685,0.185,BET,Shared backfield
+v0.3.0,2026,2,NYG@LAR,Kyren Williams,Rushing Yards,63.5,UNDER,-113,54.66,0.738,0.238,BET,Shared backfield
+v0.3.0,2026,2,NYG@LAR,Cam Skattebo,Rushing Yards,51.5,UNDER,-113,50.13,0.632,0.132,BET,Lower confidence official edge
+v0.3.0,2026,2,NYG@LAR,Darnell Mooney,Receiving Yards,19.5,OVER,-113,30.57,0.713,0.213,BET,Week 1 role produced 27 yards
+v0.3.0,2026,2,NYG@LAR,Odell Beckham Jr.,Receiving Yards,5.5,OVER,-146,13.04,0.627,0.187,BET,Low yardage threshold
