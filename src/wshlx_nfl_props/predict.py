@@ -72,15 +72,29 @@ def predict_lines(lines: pd.DataFrame, player_stats: pd.DataFrame, schedules: pd
                   probability_floor=0.57, min_prob_edge=0.04) -> pd.DataFrame:
     rows = build_prop_rows(player_stats, lines, schedules, pbp=pbp)
     out = lines.reset_index(drop=True).copy()
+
+    # Persist inferred game context so locked cards can be graded without re-inferring the matchup later.
+    out["season"] = rows["season"].astype(int).to_numpy()
+    out["week"] = rows["week"].astype(int).to_numpy()
+    out["team"] = rows["team"].astype(str).to_numpy()
+    out["opponent"] = rows["opponent_team"].astype(str).to_numpy()
+
     points, probs, sides, edges, labels, algorithms = [], [], [], [], [], []
     for i, line in out.iterrows():
         model = load_model(str(line.prop), root=model_root)
         X = rows.iloc[[i]]
         p_over = float(model.probability_over(X, float(line.line))[0])
         point = float(model.predict_point(X)[0])
-        side = "YES" if line.prop == "sack_yes" else ("OVER" if p_over >= 0.5 else "UNDER")
-        p_side = p_over if p_over >= 0.5 else 1 - p_over
-        offered = line.get("yes_odds" if line.prop == "sack_yes" else ("over_odds" if side == "OVER" else "under_odds"), np.nan)
+        if line.prop == "sack_yes":
+            # This market is player to record 1+ sack. A weak YES forecast is a pass,
+            # not an invented NO bet.
+            side = "YES"
+            p_side = p_over
+            offered = line.get("yes_odds", np.nan)
+        else:
+            side = "OVER" if p_over >= 0.5 else "UNDER"
+            p_side = p_over if p_over >= 0.5 else 1 - p_over
+            offered = line.get("over_odds" if side == "OVER" else "under_odds", np.nan)
         implied = american_to_implied(offered)
         edge = p_side - implied if not np.isnan(implied) else np.nan
         official = p_side >= probability_floor and (np.isnan(edge) or edge >= min_prob_edge)
