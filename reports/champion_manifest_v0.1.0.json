@@ -1,15 +1,7 @@
 {
   "version":"0.1.0",
-  "status":"baseline_champion",
-  "training_data":"2021 through all completed/available 2026 games at refresh time",
-  "algorithm_selection_holdout":2025,
-  "champions":{
-    "qb_pass_yds":"random_forest",
-    "qb_pass_tds":"poisson_hist_gbr",
-    "qb_rush_yds":"random_forest",
-    "rb_rush_yds":"random_forest",
-    "rec_yds":"random_forest",
-    "sack_yes":"hist_gbc"
-  },
-  "promotion_rule":"Future challenger versions must improve out-of-sample validation/calibration and survive weekly grading diagnostics before replacing these champions."
+  "status":"INVALIDATED",
+  "reason":"A feature-selection bug allowed raw same-game usage-share/team-volume fields into model inputs. This created target leakage, so v0.1.0 must not be used for betting or model comparison.",
+  "discovered_in":"v0.2.0 development",
+  "replacement_methodology":"Use strict derived-only pregame features, 2024 specification selection, untouched 2025 testing, and leakage regression tests."
 }
