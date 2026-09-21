@@ -1,0 +1,11 @@
+version: game-markets-v0.1.0
+status: baseline_candidate
+markets:
+  home_points: regression
+  away_points: regression
+  margin: regression
+  total: regression
+  home_win: binary
+official_inputs_exclude_sportsbook_lines: true
+walk_forward_years: [2023, 2024, 2025]
+promotion_policy: Establish a clean independent baseline, then lock and grade prospectively before changing specifications.
