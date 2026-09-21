@@ -24,3 +24,5 @@ jobs:
             predictions/2026_week2_giants_rams_expansion.csv
             reports/expansion_v0.1.0.json
             models/expansion_v01/
+
+# rerun after live prediction-row fix
