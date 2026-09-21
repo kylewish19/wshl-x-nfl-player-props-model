@@ -165,6 +165,18 @@ def train_prop_model(
         f["__target"] = pd.to_numeric(f[target], errors="coerce")
     f = f[(f["history_games"] >= min_history_games) & f["__target"].notna()].copy()
 
+    # sklearn's categorical imputers do not reliably accept pandas nullable
+    # StringDtype values (pd.NA). Normalize all known categorical columns to
+    # ordinary Python strings before any chronological split/model fitting.
+    for cat_col in [
+        "position_group_model", "team", "opponent_team",
+        "pregame_report_status", "pregame_practice_status",
+        "pregame_roof", "pregame_surface",
+    ]:
+        if cat_col in f.columns:
+            s = f[cat_col].astype(object)
+            f[cat_col] = s.where(pd.notna(s), "__MISSING__").astype(str)
+
     dev = f[f.season < selection_season]
     selection = f[f.season == selection_season]
     test = f[f.season == test_season]
