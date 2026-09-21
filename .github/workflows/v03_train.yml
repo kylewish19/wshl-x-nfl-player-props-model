@@ -1,0 +1,26 @@
+name: Train v0.3 pregame challenger
+on:
+  push:
+    paths:
+      - '.github/workflows/v03_train.yml'
+permissions:
+  contents: read
+jobs:
+  train-v03:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: pytest -q
+      - run: python scripts/update_data.py
+      - run: python scripts/audit_data.py
+      - run: python scripts/train_models.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nfl-player-props-v0.3-pregame
+          path: |
+            models/
+            reports/
