@@ -1,0 +1,14 @@
+version: 0.5.0-shadow
+status: shadow_only
+concept: opportunity_x_efficiency
+props:
+  qb_pass_yds:
+    volume: passing_attempts
+    efficiency: yards_per_attempt
+  rb_rush_yds:
+    volume: rushing_attempts
+    efficiency: yards_per_carry
+  rec_yds:
+    volume: targets
+    efficiency: yards_per_target
+promotion_rule: Keep v0.3 official. Use v0.5 only as shadow until historical and prospective evidence justify promotion.
