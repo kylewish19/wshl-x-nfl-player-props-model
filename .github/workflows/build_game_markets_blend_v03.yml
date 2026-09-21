@@ -1,0 +1,24 @@
+name: Build NFL game markets blend v0.3
+on:
+  push:
+    paths:
+      - '.github/workflows/build_game_markets_blend_v03.yml'
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py --config config/game_model_config.yaml
+      - run: python scripts/train_game_markets_blend_v03.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nfl-game-markets-blend-v0.3
+          path: |
+            models/game_markets_blend_v03/
+            reports/game_markets_blend_v0.3.0.json
