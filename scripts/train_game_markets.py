@@ -13,6 +13,7 @@ frame=build_game_frame(
     d["schedules"],d.get("team_stats"),d.get("pbp"),
     windows=tuple(cfg["rolling_windows"])
 )
+frame=frame[frame["season"].isin(cfg["seasons"])].copy()
 Path("data/processed").mkdir(parents=True,exist_ok=True)
 frame.to_parquet("data/processed/game_market_frame.parquet",index=False)
 numeric,categorical=game_feature_columns(frame)
