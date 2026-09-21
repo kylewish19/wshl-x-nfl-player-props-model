@@ -1,0 +1,26 @@
+name: Run Giants Rams Week 2 expansion props
+on:
+  push:
+    paths:
+      - '.github/workflows/run_giants_rams_expansion.yml'
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/train_expansion_v01.py
+      - run: python scripts/predict_props.py inputs/2026_week2_giants_rams_expansion.csv --model-root models/expansion_v01 --out predictions/2026_week2_giants_rams_expansion.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: giants-rams-week2-expansion-props
+          path: |
+            predictions/2026_week2_giants_rams_expansion.csv
+            reports/expansion_v0.1.0.json
+            models/expansion_v01/
