@@ -1,7 +1,8 @@
 project: WSHL_X NFL Player Props
-version: 0.1.0
+version: 0.2.0
 seasons: [2021, 2022, 2023, 2024, 2025, 2026]
-holdout_season: 2025
+selection_season: 2024
+test_season: 2025
 min_history_games: 3
 rolling_windows: [3, 5, 8]
 random_state: 42
