@@ -1,0 +1,26 @@
+name: Run Giants Rams Week 2 game markets
+on:
+  push:
+    paths:
+      - '.github/workflows/run_giants_rams_game_markets.yml'
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py --config config/game_model_config.yaml
+      - run: python scripts/train_game_markets.py
+      - run: python scripts/predict_game_markets.py inputs/2026_week2_giants_rams_game.csv --out predictions/2026_week2_giants_rams_game.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: giants-rams-week2-game-markets
+          path: |
+            predictions/2026_week2_giants_rams_game.csv
+            reports/game_markets_v0.1.0.json
+            models/game_markets/
