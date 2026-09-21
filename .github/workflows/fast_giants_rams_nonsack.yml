@@ -28,3 +28,5 @@ jobs:
         with:
           name: giants-rams-week2-nonsack-fast
           path: predictions/2026_week2_giants_rams_nonsack.csv
+
+# rerun after live prediction-row fix
