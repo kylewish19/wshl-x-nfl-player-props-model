@@ -1,0 +1,32 @@
+player_display_name,prop,line,team,opponent,week,over_odds,under_odds,yes_odds
+Matthew Stafford,qb_pass_yds,238.5,LAR,NYG,2,-113,-113,
+Jaxson Dart,qb_pass_yds,213.5,NYG,LAR,2,-113,-113,
+Matthew Stafford,qb_pass_tds,1.5,LAR,NYG,2,-178,136,
+Jaxson Dart,qb_pass_tds,1.5,NYG,LAR,2,185,-250,
+Devin Singletary,rb_rush_yds,11.5,NYG,LAR,2,-113,-113,
+Matthew Stafford,qb_rush_yds,0.5,LAR,NYG,2,172,-225,
+Blake Corum,rb_rush_yds,47.5,LAR,NYG,2,-113,-113,
+Kyren Williams,rb_rush_yds,63.5,LAR,NYG,2,-113,-113,
+Cam Skattebo,rb_rush_yds,51.5,NYG,LAR,2,-113,-113,
+Jaxson Dart,qb_rush_yds,33.5,NYG,LAR,2,-113,-113,
+Malachi Fields,rec_yds,26.5,NYG,LAR,2,-113,-113,
+Xavier Smith,rec_yds,17.5,LAR,NYG,2,-113,-113,
+Odell Beckham Jr.,rec_yds,5.5,NYG,LAR,2,114,-146,
+Darnell Mooney,rec_yds,19.5,NYG,LAR,2,-113,-113,
+Devin Singletary,rec_yds,7.5,NYG,LAR,2,-113,-113,
+Blake Corum,rec_yds,3.5,LAR,NYG,2,-102,-125,
+Kyren Williams,rec_yds,16.5,LAR,NYG,2,-113,-113,
+Konata Mumpfield,rec_yds,18.5,LAR,NYG,2,-113,-113,
+Cam Skattebo,rec_yds,11.5,NYG,LAR,2,-113,-113,
+Malik Nabers,rec_yds,60.5,NYG,LAR,2,-113,-113,
+Davante Adams,rec_yds,62.5,LAR,NYG,2,-113,-113,
+Aaron Donald,sack_yes,0.5,LAR,NYG,2,,,144
+Byron Young,sack_yes,0.5,LAR,NYG,2,,,144
+Kobie Turner,sack_yes,0.5,LAR,NYG,2,,,178
+Brian Burns,sack_yes,0.5,NYG,LAR,2,,,182
+Abdul Carter,sack_yes,0.5,NYG,LAR,2,,,198
+Josaiah Stewart,sack_yes,0.5,NYG,LAR,2,,,270
+Kayvon Thibodeaux,sack_yes,0.5,NYG,LAR,2,,,310
+Braden Fiske,sack_yes,0.5,LAR,NYG,2,,,350
+Arvell Reese,sack_yes,0.5,NYG,LAR,2,,,350
+Poona Ford,sack_yes,0.5,LAR,NYG,2,,,490
