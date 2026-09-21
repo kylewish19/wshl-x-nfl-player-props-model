@@ -1,0 +1,14 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+data/raw/*
+data/processed/*
+models/*.joblib
+predictions/*.csv
+grading/*.csv
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!models/.gitkeep
+!predictions/.gitkeep
+!grading/.gitkeep
