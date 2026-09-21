@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import re
 import numpy as np
 import pandas as pd
+from .enrichment import merge_auxiliary
 
 PLAYER_ID_ALIASES = ["player_id", "gsis_id", "player_gsis_id"]
 PLAYER_NAME_ALIASES = ["player_display_name", "player_name", "name"]
@@ -26,6 +28,8 @@ USAGE_ALIASES = {
     "def_qb_hits": ["def_qb_hits", "qb_hits"],
     "def_tackles": ["def_tackles", "tackles_combined", "tackles"],
 }
+
+AUX_PREFIXES = ("snap_", "ngs_pass_", "ngs_rush_", "ngs_rec_", "pfr_pass_", "pfr_rush_", "pfr_rec_", "pfr_def_")
 
 
 def first_present(df: pd.DataFrame, aliases: list[str]) -> str | None:
@@ -115,10 +119,12 @@ def add_pbp_team_context(stats: pd.DataFrame, pbp: pd.DataFrame | None) -> pd.Da
 
 
 def build_feature_frame(player_stats: pd.DataFrame, schedules: pd.DataFrame | None = None,
-                        pbp: pd.DataFrame | None = None, windows=(3, 5, 8)) -> pd.DataFrame:
+                        pbp: pd.DataFrame | None = None, windows=(3, 5, 8),
+                        auxiliary: dict[str, pd.DataFrame] | None = None) -> pd.DataFrame:
     x = normalize_player_stats(player_stats)
     x = attach_opponents(x, schedules)
     x = add_pbp_team_context(x, pbp)
+    x = merge_auxiliary(x, auxiliary)
     x = x.sort_values(["player_id", "season", "week"]).reset_index(drop=True)
 
     base_numeric = [
@@ -128,12 +134,27 @@ def build_feature_frame(player_stats: pd.DataFrame, schedules: pd.DataFrame | No
         "qb_hits_allowed", "opp_dropbacks_faced", "opp_rush_plays_faced", "defense_sacks", "defense_qb_hits",
     ]
     base_numeric = [c for c in base_numeric if c in x.columns]
+    aux_numeric = [
+        c for c in x.columns
+        if c.startswith(AUX_PREFIXES) and pd.api.types.is_numeric_dtype(x[c])
+    ]
+
     g = x.groupby("player_id", sort=False)
     x["history_games"] = g.cumcount()
+
     for c in base_numeric:
         x[f"{c}_lag1"] = g[c].shift(1)
         for w in windows:
             x[f"{c}_r{w}"] = g[c].transform(lambda s, w=w: s.shift(1).rolling(w, min_periods=1).mean())
+
+    # Auxiliary sources are all postgame measurements. They are never exposed raw:
+    # only lagged/rolling values can become model features.
+    aux_windows = tuple(w for w in windows if w <= 5) or (3, 5)
+    for c in aux_numeric:
+        x[f"{c}_lag1"] = g[c].shift(1)
+        for w in aux_windows:
+            x[f"{c}_r{w}"] = g[c].transform(lambda s, w=w: s.shift(1).rolling(w, min_periods=1).mean())
+
     for c in ["passing_yards", "rushing_yards", "receiving_yards", "def_sacks", "targets", "rushing_attempts", "passing_attempts"]:
         if c in x:
             x[f"{c}_ewm"] = g[c].transform(lambda s: s.shift(1).ewm(span=5, adjust=False, min_periods=1).mean())
@@ -168,18 +189,32 @@ def build_feature_frame(player_stats: pd.DataFrame, schedules: pd.DataFrame | No
     return x
 
 
-def model_feature_columns(frame: pd.DataFrame) -> tuple[list[str], list[str]]:
+def _is_derived_feature(c: str) -> bool:
+    return (
+        c.endswith("_lag1")
+        or c.endswith("_ewm")
+        or re.search(r"_r\d+$", c) is not None
+        or c in {"season", "week", "history_games"}
+    )
+
+
+def model_feature_columns(frame: pd.DataFrame, feature_set: str = "enriched") -> tuple[list[str], list[str]]:
+    """Return only features known before kickoff.
+
+    This intentionally rejects raw current-game usage, team-volume and auxiliary values.
+    """
     exclude = {
         "passing_yards", "passing_tds", "rushing_yards", "receiving_yards", "def_sacks",
         "player_id", "player_display_name", "season_type", "game_id", "fantasy_points", "fantasy_points_ppr"
     }
     numeric = []
     for c in frame.columns:
-        if c in exclude:
+        if c in exclude or not pd.api.types.is_numeric_dtype(frame[c]):
             continue
-        if pd.api.types.is_numeric_dtype(frame[c]) and (
-            "_lag" in c or "_r" in c or "_ewm" in c or "_share" in c or c in ["season", "week", "history_games"]
-        ):
-            numeric.append(c)
+        if not _is_derived_feature(c):
+            continue
+        if feature_set == "baseline" and c.startswith(AUX_PREFIXES):
+            continue
+        numeric.append(c)
     categorical = [c for c in ["position_group_model", "team", "opponent_team"] if c in frame.columns]
     return sorted(set(numeric)), categorical
