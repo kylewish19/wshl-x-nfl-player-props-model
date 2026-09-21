@@ -1,0 +1,18 @@
+{
+  "generated_from_run": 35652873770,
+  "season_range": [2021, 2026],
+  "player_stats": {"rows":97010,"columns":150,"min_season":2021,"max_season":2026,"max_week":22},
+  "pbp": {"rows":252618,"columns":372,"min_season":2021,"max_season":2026,"max_week":22},
+  "snap_counts": {"rows":135517,"columns":16,"min_season":2021,"max_season":2026,"max_week":22},
+  "weekly_rosters": {"rows":237433,"columns":36,"min_season":2021,"max_season":2026,"max_week":22},
+  "injuries": {"rows":29584,"columns":17,"min_season":2021,"max_season":2026,"max_week":22},
+  "team_stats": {"rows":2910,"columns":138,"min_season":2021,"max_season":2026,"max_week":22},
+  "ngs_passing": {"rows":3148,"columns":29,"min_season":2021,"max_season":2026,"max_week":23},
+  "ngs_receiving": {"rows":7613,"columns":23,"min_season":2021,"max_season":2026,"max_week":23},
+  "ngs_rushing": {"rows":3223,"columns":22,"min_season":2021,"max_season":2026,"max_week":23},
+  "adv_pass": {"rows":3511,"columns":24,"min_season":2021,"max_season":2026,"max_week":22},
+  "adv_rush": {"rows":11988,"columns":16,"min_season":2021,"max_season":2026,"max_week":22},
+  "adv_rec": {"rows":23000,"columns":17,"min_season":2021,"max_season":2026,"max_week":22},
+  "adv_def": {"rows":40625,"columns":29,"min_season":2021,"max_season":2026,"max_week":22},
+  "current_player_stats": {"season":2026,"latest_week":2,"rows":2162,"players":1293}
+}
