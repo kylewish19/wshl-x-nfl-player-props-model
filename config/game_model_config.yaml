@@ -1,0 +1,27 @@
+project: WSHL_X NFL Game Markets
+version: 0.1.0
+status: baseline_candidate
+seasons: [2021, 2022, 2023, 2024, 2025, 2026]
+selection_season: 2024
+test_season: 2025
+rolling_windows: [3, 5, 8]
+random_state: 42
+official_probability_floor: 0.57
+minimum_probability_edge: 0.04
+market_informed_features: false
+markets:
+  home_points:
+    target: target_home_points
+    kind: regression
+  away_points:
+    target: target_away_points
+    kind: regression
+  margin:
+    target: target_margin
+    kind: regression
+  total:
+    target: target_total
+    kind: regression
+  home_win:
+    target: target_home_win
+    kind: binary
