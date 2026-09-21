@@ -1,10 +1,7 @@
 {
-  "generated_from_run": 35652873770,
-  "holdout_season": 2025,
-  "qb_pass_yds": {"algorithm":"random_forest","mae":45.99921254318625,"rmse":61.10118408333442,"validation_rows":619},
-  "qb_pass_tds": {"algorithm":"poisson_hist_gbr","poisson_deviance":0.96049504262611,"mae":0.799027298860751,"validation_rows":619},
-  "qb_rush_yds": {"algorithm":"random_forest","mae":8.441519256289945,"rmse":12.007661791462713,"validation_rows":619},
-  "rb_rush_yds": {"algorithm":"random_forest","mae":11.099354355638956,"rmse":19.011867891973843,"validation_rows":1547},
-  "rec_yds": {"algorithm":"random_forest","mae":11.520585661585878,"rmse":18.37154085449592,"validation_rows":3917},
-  "sack_yes": {"algorithm":"hist_gbc","brier":0.13369043574306713,"log_loss":0.42593591822144067,"auc":0.7214500159757571,"validation_rows":5807}
+  "version":"0.1.0",
+  "status":"INVALIDATED",
+  "generated_from_run":35652873770,
+  "reason":"The reported metrics are not valid out-of-sample estimates because raw same-game usage-share/team-volume fields could enter the feature matrix. 2025 was also used for model selection rather than being a fully untouched test set.",
+  "do_not_use_metrics_for_promotion":true
 }
