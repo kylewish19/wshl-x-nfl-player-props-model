@@ -1,4 +1,5 @@
 name: Train v0.3 pregame challenger
+# rerun after categorical normalization
 on:
   push:
     paths:
