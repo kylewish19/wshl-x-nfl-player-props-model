@@ -1,0 +1,11 @@
+version: 0.2.0-shadow
+status: market_informed_shadow
+description: >
+  Learns residual error around historical closing spread/total and calibrates
+  moneyline probability using pregame market priors plus football context.
+official: false
+training_line_source: nflverse historical closing markets
+live_line_source: FanDuel user-provided prices/lines
+promotion_rule: >
+  Must beat the historical closing-market benchmark on untouched 2025 data
+  and then survive prospective locked-card grading before official use.
