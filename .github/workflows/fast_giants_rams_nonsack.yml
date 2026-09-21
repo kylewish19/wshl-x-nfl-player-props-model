@@ -1,0 +1,30 @@
+name: Fast Giants Rams non-sack props
+on:
+  push:
+    paths:
+      - '.github/workflows/fast_giants_rams_nonsack.yml'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py --no-pbp
+      - uses: actions/download-artifact@v4
+        with:
+          name: nfl-player-props-official-v0.3
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: 35658840918
+          path: .
+      - run: python scripts/predict_fast_nonsack.py inputs/2026_week2_giants_rams_supported.csv --out predictions/2026_week2_giants_rams_nonsack.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: giants-rams-week2-nonsack-fast
+          path: predictions/2026_week2_giants_rams_nonsack.csv
