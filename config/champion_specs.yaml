@@ -1,0 +1,20 @@
+version: 0.3.0
+champions:
+  qb_pass_yds:
+    feature_set: pregame
+    algorithm: random_forest
+  qb_pass_tds:
+    feature_set: pregame
+    algorithm: poisson_glm
+  qb_rush_yds:
+    feature_set: baseline
+    algorithm: elastic_net
+  rb_rush_yds:
+    feature_set: baseline
+    algorithm: elastic_net
+  rec_yds:
+    feature_set: baseline
+    algorithm: elastic_net
+  sack_yes:
+    feature_set: enriched
+    algorithm: hist_gbc
