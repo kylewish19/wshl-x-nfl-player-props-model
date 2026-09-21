@@ -64,3 +64,35 @@ def test_train_qb_pass_yards_chronologically():
     assert m.feature_set=="baseline"
     assert m.validation_metrics["test_season"]==2025
     assert "test_metrics" in m.validation_metrics
+
+
+def test_matchup_block_is_opt_in_and_shifted():
+    raw=synthetic()
+    pbp_rows=[]
+    for season in range(2021,2026):
+        for week in range(1,10):
+            for offense,defense in [("AAA","BBB"),("BBB","AAA")]:
+                for i in range(20):
+                    pbp_rows.append({
+                        "season":season,"week":week,"posteam":offense,"defteam":defense,
+                        "pass_attempt":1 if i<12 else 0,
+                        "rush_attempt":1 if i>=12 else 0,
+                        "sack":1 if i in (2,7) and offense=="BBB" else 0,
+                        "qb_hit":1 if i in (2,5,7) and offense=="BBB" else 0,
+                    })
+    pbp=pd.DataFrame(pbp_rows)
+    f=build_feature_frame(raw,pbp=pbp,windows=(3,5))
+    base,_=model_feature_columns(f,feature_set="baseline")
+    match,_=model_feature_columns(f,feature_set="baseline_matchup")
+    assert not any(x.startswith(("teamctx_","oppctx_")) for x in base)
+    assert any(x.startswith("oppctx_sacks_allowed_r") for x in match)
+
+    # Changing the current week's PBP cannot alter that same week's matchup feature.
+    pbp2=pbp.copy()
+    mask=(pbp2.season==2025)&(pbp2.week==9)&(pbp2.posteam=="BBB")
+    pbp2.loc[mask,"sack"]=99
+    f2=build_feature_frame(raw,pbp=pbp2,windows=(3,5))
+    cols=[x for x in match if x.startswith(("teamctx_","oppctx_"))]
+    r1=f[(f.player_id=="EDGE A")&(f.season==2025)&(f.week==9)][cols].reset_index(drop=True)
+    r2=f2[(f2.player_id=="EDGE A")&(f2.season==2025)&(f2.week==9)][cols].reset_index(drop=True)
+    pd.testing.assert_frame_equal(r1,r2)
