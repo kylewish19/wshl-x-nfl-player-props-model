@@ -1,0 +1,32 @@
+{
+  "version":"0.5.0-shadow",
+  "status":"KEEP_SHADOW_PENDING_PROSPECTIVE_GRADING",
+  "concept":"opportunity_x_efficiency",
+  "walk_forward_years":[2023,2024,2025],
+  "results":{
+    "qb_pass_yds":{
+      "official_weighted_mae":66.17723106346057,
+      "challenger_weighted_mae":65.86752212371977,
+      "relative_improvement_pct":0.4679992419806841,
+      "challenger_spec":"pregame:decomposed[random_forest+random_forest]",
+      "decision":"SHADOW_ONLY"
+    },
+    "rb_rush_yds":{
+      "official_weighted_mae":18.81999992177843,
+      "challenger_weighted_mae":18.43528426611965,
+      "relative_improvement_pct":2.0441852139095342,
+      "challenger_spec":"baseline:decomposed[elastic_net+elastic_net]",
+      "decision":"HISTORICAL_PROMOTION_CANDIDATE_BUT_SHADOW_FIRST"
+    },
+    "rec_yds":{
+      "official_weighted_mae":16.7645880754141,
+      "challenger_weighted_mae":16.573440081125568,
+      "relative_improvement_pct":1.1401890307633458,
+      "challenger_spec":"baseline:decomposed[elastic_net+elastic_net]",
+      "decision":"HISTORICAL_PROMOTION_CANDIDATE_BUT_SHADOW_FIRST"
+    }
+  },
+  "official_version_remains":"0.3.0",
+  "source_actions_run":35661300333,
+  "promotion_policy":"Do not replace v0.3 from historical evidence alone. Lock v0.5 side-by-side prospectively and grade before promotion."
+}
