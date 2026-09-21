@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/benchmark_game_markets.yml'
+      - 'scripts/benchmark_game_markets.py'
 permissions:
   contents: read
 jobs:
