@@ -1,0 +1,6 @@
+player_display_name,prop,line,team,opponent,week,over_odds,under_odds,yes_odds
+Patrick Mahomes,qb_pass_yds,275.5,KC,,,,-110,-110,
+Patrick Mahomes,qb_pass_tds,1.5,KC,,,,-125,105,
+Christian McCaffrey,rb_rush_yds,72.5,SF,,,,-110,-110,
+Christian McCaffrey,rec_yds,38.5,SF,,,,-110,-110,
+Example Edge,sack_yes,0.5,XXX,,,,,,120
