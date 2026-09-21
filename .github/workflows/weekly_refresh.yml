@@ -1,4 +1,4 @@
-name: Weekly data refresh and challenger training
+name: Weekly official NFL props refit
 on:
   workflow_dispatch:
   schedule:
@@ -8,6 +8,7 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -15,10 +16,11 @@ jobs:
       - run: pip install -r requirements.txt && pip install -e .
       - run: python scripts/update_data.py
       - run: python scripts/audit_data.py
-      - run: python scripts/train_models.py
+      - run: python scripts/train_official.py
       - uses: actions/upload-artifact@v4
         with:
-          name: nfl-player-props-challenger
+          name: nfl-player-props-official-v0.3
           path: |
-            models/
-            reports/
+            models/official/
+            reports/official_refit.json
+            reports/data_audit.json
