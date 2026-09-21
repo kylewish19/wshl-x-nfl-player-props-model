@@ -1,0 +1,17 @@
+{
+  "version":"0.4.0-shadow",
+  "status":"REJECT_FOR_PROMOTION_KEEP_AS_SHADOW",
+  "official_version":"0.3.0",
+  "concept":"leakage-safe team/opponent play-by-play matchup context",
+  "walk_forward_years":[2023,2024,2025],
+  "results":{
+    "qb_pass_yds":{"relative_improvement_pct":-0.16794583863111248},
+    "qb_pass_tds":{"relative_improvement_pct":0.03902908287996135},
+    "qb_rush_yds":{"relative_improvement_pct":-2.0157422681508494},
+    "rb_rush_yds":{"relative_improvement_pct":-0.09146355187150591},
+    "rec_yds":{"relative_improvement_pct":-0.17601076865337864},
+    "sack_yes":{"relative_improvement_pct":-0.0008521559407215719}
+  },
+  "decision":"No v0.4 specification replaces the v0.3 official champion. QB pass TD matchup context was fractionally better historically but the gain was too small to justify promotion. Continue prospective shadow comparison on locked cards.",
+  "source_actions_run":35659855629
+}
