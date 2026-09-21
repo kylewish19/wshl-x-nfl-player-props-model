@@ -24,3 +24,5 @@ jobs:
             predictions/2026_week2_giants_rams_game.csv
             reports/game_markets_v0.1.0.json
             models/game_markets/
+
+# rerun after Rams schedule abbreviation fix
