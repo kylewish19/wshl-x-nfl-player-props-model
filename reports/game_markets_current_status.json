@@ -1,0 +1,27 @@
+{
+  "game_market_status":"PROSPECTIVE_SHADOW",
+  "date":"2026-09-21",
+  "official_betting_policy":"Do not issue model-derived official spread, moneyline, or total bets solely from the current game-market models. Track them prospectively against FanDuel lines while player-prop models continue as the official prop system.",
+  "independent_v0.1_2025":{
+    "margin_mae":10.333405345635361,
+    "total_mae":10.784551320916348,
+    "moneyline_brier":0.253628812899048
+  },
+  "historical_closing_market_2025":{
+    "margin_mae":9.722426470588236,
+    "total_mae":10.393382352941176,
+    "moneyline_brier":0.21213896835079202
+  },
+  "market_informed_v0.2_2025":{
+    "margin_mae":9.803957958977204,
+    "total_mae":10.370955639052307,
+    "moneyline_brier":0.23618840138470823
+  },
+  "shrunken_blend_v0.3":{
+    "spread_selected_model_weight":0.0,
+    "total_selected_model_weight":0.0,
+    "moneyline_selected_model_weight":0.0,
+    "interpretation":"On 2024 selection data, every nonzero model adjustment worsened the market benchmark. The rule therefore froze at zero adjustment before the untouched 2025 test."
+  },
+  "next_step":"For live 2026 games, record FanDuel opening/current/closing spread, total and moneyline when available; run independent and market-informed predictions in shadow; grade ATS/ML/O-U, calibration, CLV, and disagreement buckets before promoting any game-market model."
+}
