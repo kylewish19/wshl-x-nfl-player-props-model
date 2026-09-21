@@ -31,7 +31,8 @@ def _next_game(team: str, schedules: pd.DataFrame, season: int):
 
 
 def build_prop_rows(history: pd.DataFrame, lines: pd.DataFrame, schedules: pd.DataFrame,
-                    pbp: pd.DataFrame | None = None, windows=(3,5,8)) -> pd.DataFrame:
+                    pbp: pd.DataFrame | None = None, windows=(3,5,8),
+                    auxiliary: dict[str, pd.DataFrame] | None = None) -> pd.DataFrame:
     hist = normalize_player_stats(history)
     max_season = int(hist.season.max())
     placeholders = []
@@ -63,14 +64,15 @@ def build_prop_rows(history: pd.DataFrame, lines: pd.DataFrame, schedules: pd.Da
         placeholders.append(row)
     h = hist.copy(); h["__prediction_row"] = np.nan
     combined = pd.concat([h, pd.DataFrame(placeholders)], ignore_index=True, sort=False)
-    feat = build_feature_frame(combined, schedules=schedules, pbp=pbp, windows=windows)
+    feat = build_feature_frame(combined, schedules=schedules, pbp=pbp, windows=windows, auxiliary=auxiliary)
     return feat[feat["__prediction_row"].notna()].sort_values("__prediction_row").reset_index(drop=True)
 
 
 def predict_lines(lines: pd.DataFrame, player_stats: pd.DataFrame, schedules: pd.DataFrame,
                   pbp: pd.DataFrame | None = None, model_root="models",
-                  probability_floor=0.57, min_prob_edge=0.04) -> pd.DataFrame:
-    rows = build_prop_rows(player_stats, lines, schedules, pbp=pbp)
+                  probability_floor=0.57, min_prob_edge=0.04,
+                  auxiliary: dict[str, pd.DataFrame] | None = None) -> pd.DataFrame:
+    rows = build_prop_rows(player_stats, lines, schedules, pbp=pbp, auxiliary=auxiliary)
     out = lines.reset_index(drop=True).copy()
 
     # Persist inferred game context so locked cards can be graded without re-inferring the matchup later.
@@ -105,4 +107,5 @@ def predict_lines(lines: pd.DataFrame, player_stats: pd.DataFrame, schedules: pd
     out["probability_edge_vs_price"] = edges
     out["status"] = labels
     out["algorithm"] = algorithms
+    out["feature_set"] = [load_model(str(p), root=model_root).feature_set for p in out["prop"]]
     return out
