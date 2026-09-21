@@ -1,0 +1,15 @@
+{
+  "version": "0.3.0",
+  "status": "official_hybrid_champion",
+  "evaluation_policy": "Use expanding-window walk-forward evidence across multiple seasons for promotion. Do not promote a challenger solely because it wins a reused single-season benchmark.",
+  "champions": {
+    "qb_pass_yds": {"feature_set":"pregame","algorithm":"random_forest"},
+    "qb_pass_tds": {"feature_set":"pregame","algorithm":"poisson_glm"},
+    "qb_rush_yds": {"feature_set":"baseline","algorithm":"elastic_net"},
+    "rb_rush_yds": {"feature_set":"baseline","algorithm":"elastic_net"},
+    "rec_yds": {"feature_set":"baseline","algorithm":"elastic_net"},
+    "sack_yes": {"feature_set":"enriched","algorithm":"hist_gbc"}
+  },
+  "live_refit": "After specifications are frozen, fit each official champion on all completed data through the current 2026 refresh.",
+  "supersedes": "v0.2.0 clean champion"
+}
