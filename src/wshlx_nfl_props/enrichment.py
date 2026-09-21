@@ -91,7 +91,7 @@ def _prepare_aux(df: pd.DataFrame, prefix: str) -> pd.DataFrame:
         and c not in {"season", "week", "player_jersey_number"}
     ]
     # Curated metrics first; keep a bounded number of source-specific extras.
-    metrics = list(dict.fromkeys(preferred + numeric_extra))[:40]
+    metrics = list(dict.fromkeys(preferred + numeric_extra))[:20]
     if not metrics:
         return pd.DataFrame()
     keep = ["season", "week", "team", "__name_key"] + metrics
