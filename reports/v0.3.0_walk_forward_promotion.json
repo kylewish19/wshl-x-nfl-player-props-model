@@ -1,0 +1,50 @@
+{
+  "version": "0.3.0",
+  "method": "fixed-spec expanding-window walk-forward",
+  "test_years": [2023, 2024, 2025],
+  "promotion_decisions": {
+    "qb_pass_yds": {
+      "decision": "PROMOTE",
+      "from": "enriched:random_forest",
+      "to": "pregame:random_forest",
+      "v02_weighted_mae": 67.11440967524331,
+      "v03_weighted_mae": 66.17723106346057,
+      "relative_improvement_pct": 1.3963895627147838,
+      "reason": "Improved MAE in all three walk-forward seasons."
+    },
+    "qb_pass_tds": {
+      "decision": "PROMOTE",
+      "from": "baseline:poisson_glm",
+      "to": "pregame:poisson_glm",
+      "v02_weighted_poisson_deviance": 1.096758926892572,
+      "v03_weighted_poisson_deviance": 1.08822511536629,
+      "relative_improvement_pct": 0.7780936463823052,
+      "reason": "Improved primary Poisson deviance in all three walk-forward seasons."
+    },
+    "qb_rush_yds": {
+      "decision": "KEEP",
+      "spec": "baseline:elastic_net",
+      "reason": "v0.3 did not change the selected specification."
+    },
+    "rb_rush_yds": {
+      "decision": "KEEP",
+      "spec": "baseline:elastic_net",
+      "v02_weighted_mae": 18.81999992177843,
+      "challenger_weighted_mae": 18.821748901820648,
+      "reason": "Pregame challenger was fractionally worse over the three-season walk-forward."
+    },
+    "rec_yds": {
+      "decision": "KEEP",
+      "spec": "baseline:elastic_net",
+      "reason": "v0.3 did not improve on the baseline specification."
+    },
+    "sack_yes": {
+      "decision": "KEEP",
+      "spec": "enriched:hist_gbc",
+      "v02_weighted_brier": 0.14130093726036627,
+      "challenger_weighted_brier": 0.14125244314332858,
+      "relative_improvement_pct": 0.034319741947885785,
+      "reason": "Full-feature challenger gain was too small and inconsistent across seasons to justify added complexity."
+    }
+  }
+}
