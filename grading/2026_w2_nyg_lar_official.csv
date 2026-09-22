@@ -1,0 +1,11 @@
+player,prop,pick,line,odds,model_projection,model_probability,actual,result,context_tag,calibration_eligible
+Jaxson Dart,Passing TDs,UNDER,1.5,-250,0.66,0.857,0,WIN,EARLY_GAME_INJURY,false
+Jaxson Dart,Rushing Yards,UNDER,33.5,-113,17.97,0.849,0,WIN,EARLY_GAME_INJURY,false
+Devin Singletary,Rushing Yards,OVER,11.5,-113,25.69,0.759,9,LOSS,TEAM_QB_INJURY_SHOCK,true
+Matthew Stafford,Rushing Yards,UNDER,0.5,-225,-5.56,0.738,-1,WIN,CLEAN,true
+Kyren Williams,Rushing Yards,UNDER,63.5,-113,54.66,0.738,85,LOSS,CLEAN,true
+Matthew Stafford,Passing TDs,UNDER,1.5,136,1.06,0.715,4,LOSS,CLEAN,true
+Darnell Mooney,Receiving Yards,OVER,19.5,-113,30.57,0.713,48,WIN,TEAM_QB_INJURY_SHOCK,true
+Blake Corum,Rushing Yards,UNDER,47.5,-113,43.01,0.685,79,LOSS,CLEAN,true
+Cam Skattebo,Rushing Yards,UNDER,51.5,-113,50.13,0.632,36,WIN,TEAM_QB_INJURY_SHOCK,true
+Odell Beckham Jr.,Receiving Yards,OVER,5.5,-146,13.04,0.627,0,LOSS,TEAM_QB_INJURY_SHOCK,true
