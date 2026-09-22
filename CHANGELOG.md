@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026 Week 2 postgame — Giants at Rams
+- First locked live player-prop card graded **5-5**.
+- Added postgame context tags distinguishing sportsbook result from calibration eligibility.
+- Jaxson Dart's two Under wins were retained in betting W-L but marked calibration-ineligible after his opening-drive knee injury.
+- Preserved v0.3 as official; no coefficient/model promotion from one noisy game.
+- Required v0.5 opportunity×efficiency shadow logging on the next live card after both Kyren Williams and Blake Corum beat their rushing-yard Under lines by large margins.
+- Added target-vacancy preflight protection after Puka Nacua/Jordan Whittington absences materially redistributed Rams receiving volume.
+- Receptions/TE-yardage add-on remains shadow-only after a 10-8 raw first card.
+- Game-market family remains shadow-only after NYG +6.5 lost and prior historical testing failed to beat the closing market.
+- Abdul Carter sack +198 shadow hit; sack probability threshold remains unchanged pending a larger sample.
+
 ## v0.2.0 — leakage correction + enriched challenger
 - Invalidated v0.1.0 after discovering that raw same-game usage-share/team-volume columns could enter the model feature matrix.
 - Restricted model inputs to explicitly lagged, rolling, or otherwise pregame-safe derived features.
