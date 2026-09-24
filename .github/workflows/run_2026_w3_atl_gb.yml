@@ -1,0 +1,77 @@
+name: Run Falcons Packers Week 3 card
+on:
+  push:
+    paths:
+      - '.github/workflows/run_2026_w3_atl_gb.yml'
+permissions:
+  contents: read
+jobs:
+  official:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/train_official.py
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_official_props.csv --out predictions/2026_w3_atl_gb_official.csv --model-root models/official
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_alt_rush.csv --out predictions/2026_w3_atl_gb_alt_rush.csv --model-root models/official
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-official
+          path: |
+            predictions/2026_w3_atl_gb_official.csv
+            predictions/2026_w3_atl_gb_alt_rush.csv
+  v05:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/train_decomposed_challenger.py
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_v05_shadow.csv --out predictions/2026_w3_atl_gb_v05_shadow.csv --model-root models/challenger_v05
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-v05-shadow
+          path: |
+            predictions/2026_w3_atl_gb_v05_shadow.csv
+            reports/v0.5.0_shadow_decomposed.json
+  addon:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/train_expansion_v01.py
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_addon_props.csv --out predictions/2026_w3_atl_gb_addon.csv --model-root models/expansion_v01
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-addon
+          path: |
+            predictions/2026_w3_atl_gb_addon.csv
+            reports/expansion_v0.1.0.json
+  game:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py --config config/game_model_config.yaml
+      - run: python scripts/train_game_markets.py
+      - run: python scripts/predict_game_markets.py inputs/live/2026_w3_atl_gb_game.csv --out predictions/2026_w3_atl_gb_game.csv --model-root models/game_markets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-game
+          path: |
+            predictions/2026_w3_atl_gb_game.csv
+            reports/game_markets_v0.1.0.json
