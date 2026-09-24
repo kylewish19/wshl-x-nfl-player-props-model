@@ -43,8 +43,25 @@ def build_prop_rows(history: pd.DataFrame, lines: pd.DataFrame, schedules: pd.Da
                     auxiliary: dict[str, pd.DataFrame] | None = None) -> pd.DataFrame:
     hist = normalize_player_stats(history)
     max_season = int(hist.season.max())
+    src = lines.reset_index(drop=True).copy()
+
+    # Sportsbooks often list many alternate thresholds for the same player.
+    # Those rows describe one pregame state and MUST share exactly one feature
+    # vector. Creating a placeholder per threshold lets prediction placeholders
+    # leak into later rolling features for the same player.
+    key_cols = ["player_display_name"]
+    for c in ["team", "opponent", "week"]:
+        if c in src.columns:
+            key_cols.append(c)
+    keys = []
+    for _, r in src.iterrows():
+        keys.append(tuple("__NA__" if pd.isna(r.get(c, np.nan)) else str(r.get(c)) for c in key_cols))
+    codes, _ = pd.factorize(pd.Series(keys, dtype="object"), sort=False)
+    first_indices = [int(np.flatnonzero(codes == i)[0]) for i in range(int(codes.max()) + 1)]
+    unique_lines = src.iloc[first_indices].reset_index(drop=True)
+
     placeholders = []
-    for i, line in lines.reset_index(drop=True).iterrows():
+    for i, line in unique_lines.iterrows():
         name = str(line.player_display_name)
         matches = hist[hist.player_display_name.str.lower() == name.lower()].copy()
         supplied_team = line.get("team", None)
@@ -76,10 +93,12 @@ def build_prop_rows(history: pd.DataFrame, lines: pd.DataFrame, schedules: pd.Da
         if "season_type" in hist.columns:
             row["season_type"] = "REG"
         placeholders.append(row)
+
     h = hist.copy(); h["__prediction_row"] = np.nan
     combined = pd.concat([h, pd.DataFrame(placeholders)], ignore_index=True, sort=False)
     feat = build_feature_frame(combined, schedules=schedules, pbp=pbp, windows=windows, auxiliary=auxiliary)
-    return feat[feat["__prediction_row"].notna()].sort_values("__prediction_row").reset_index(drop=True)
+    unique_rows = feat[feat["__prediction_row"].notna()].sort_values("__prediction_row").reset_index(drop=True)
+    return unique_rows.iloc[codes].reset_index(drop=True)
 
 
 def predict_lines(lines: pd.DataFrame, player_stats: pd.DataFrame, schedules: pd.DataFrame,
@@ -89,7 +108,6 @@ def predict_lines(lines: pd.DataFrame, player_stats: pd.DataFrame, schedules: pd
     rows = build_prop_rows(player_stats, lines, schedules, pbp=pbp, auxiliary=auxiliary)
     out = lines.reset_index(drop=True).copy()
 
-    # Persist inferred game context so locked cards can be graded without re-inferring the matchup later.
     out["season"] = rows["season"].astype(int).to_numpy()
     out["week"] = rows["week"].astype(int).to_numpy()
     out["team"] = rows["team"].astype(str).to_numpy()
@@ -102,8 +120,6 @@ def predict_lines(lines: pd.DataFrame, player_stats: pd.DataFrame, schedules: pd
         p_over = float(model.probability_over(X, float(line.line))[0])
         point = float(model.predict_point(X)[0])
         if line.prop == "sack_yes":
-            # This market is player to record 1+ sack. A weak YES forecast is a pass,
-            # not an invented NO bet.
             side = "YES"
             p_side = p_over
             offered = line.get("yes_odds", np.nan)
