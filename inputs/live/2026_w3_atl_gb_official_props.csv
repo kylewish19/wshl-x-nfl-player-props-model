@@ -1,0 +1,29 @@
+player_display_name,team,prop,line,over_odds,under_odds,yes_odds
+Jordan Love,GB,qb_pass_yds,231.5,-113,-113,
+Michael Penix Jr.,ATL,qb_pass_yds,204.5,-113,-113,
+Michael Penix Jr.,ATL,qb_pass_tds,0.5,-265,195,
+Jordan Love,GB,qb_pass_tds,1.5,-114,-114,
+Michael Penix Jr.,ATL,qb_rush_yds,5.5,102,-125,
+Jordan Love,GB,qb_rush_yds,7.5,-113,-113,
+Chris Brooks,GB,rb_rush_yds,14.5,-113,-113,
+Kaleb Johnson,GB,rb_rush_yds,37.5,-113,-113,
+Bijan Robinson,ATL,rec_yds,37.5,-113,-113,
+MarShawn Lloyd,GB,rec_yds,5.5,-102,-125,
+Chris Brooks,GB,rec_yds,6.5,-106,-120,
+Olamide Zaccheaus,ATL,rec_yds,10.5,-113,-113,
+Skyy Moore,GB,rec_yds,12.5,-113,-113,
+Jahan Dotson,ATL,rec_yds,17.5,-113,-113,
+Drake London,ATL,rec_yds,65.5,-113,-113,
+Matthew Golden,GB,rec_yds,54.5,-113,-113,
+Christian Watson,GB,rec_yds,71.5,-113,-113,
+Za'Darius Smith,ATL,sack_yes,0.5,,,124
+Lukas Van Ness,GB,sack_yes,0.5,,,162
+Gervon Dexter Sr.,ATL,sack_yes,0.5,,,230
+Brandon Dorlus,ATL,sack_yes,0.5,,,250
+Devonte Wyatt,GB,sack_yes,0.5,,,250
+Barryn Sorrell,GB,sack_yes,0.5,,,260
+Brenton Cox,GB,sack_yes,0.5,,,280
+Cameron Thomas,,sack_yes,0.5,,,300
+Edgerrin Cooper,GB,sack_yes,0.5,,,390
+Dani Dennis-Sutton,GB,sack_yes,0.5,,,390
+Harold Perkins Jr.,,sack_yes,0.5,,,490
