@@ -1,0 +1,25 @@
+name: Fast Week 3 game shadow
+on:
+  push:
+    paths:
+      - '.github/workflows/fast_w3_game.yml'
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py --config config/game_model_config.yaml
+      - run: python scripts/train_game_markets.py
+      - run: python scripts/predict_game_markets.py inputs/live/2026_w3_atl_gb_game.csv --out predictions/2026_w3_atl_gb_game.csv --model-root models/game_markets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-game-fast
+          path: |
+            predictions/2026_w3_atl_gb_game.csv
+            reports/game_markets_v0.1.0.json
