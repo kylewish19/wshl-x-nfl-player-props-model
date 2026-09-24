@@ -1,0 +1,23 @@
+name: Fast Week 3 corrected alt rush
+on:
+  push:
+    paths:
+      - '.github/workflows/fast_w3_alt.yml'
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/train_official.py
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_alt_rush.csv --out predictions/2026_w3_atl_gb_alt_rush_corrected.csv --model-root models/official
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-alt-corrected
+          path: predictions/2026_w3_atl_gb_alt_rush_corrected.csv
