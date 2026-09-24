@@ -1,0 +1,29 @@
+name: Rerun Falcons Packers Week 3 official
+on:
+  push:
+    paths:
+      - '.github/workflows/rerun_2026_w3_atl_gb_official.yml'
+permissions:
+  contents: read
+jobs:
+  official:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/filter_known_players.py inputs/live/2026_w3_atl_gb_official_props.csv --out inputs/live/2026_w3_atl_gb_official_known.csv --missing predictions/2026_w3_atl_gb_missing_players.csv
+      - run: python scripts/train_official.py
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_official_known.csv --out predictions/2026_w3_atl_gb_official.csv --model-root models/official
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_alt_rush.csv --out predictions/2026_w3_atl_gb_alt_rush.csv --model-root models/official
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-official-rerun
+          path: |
+            predictions/2026_w3_atl_gb_official.csv
+            predictions/2026_w3_atl_gb_alt_rush.csv
+            predictions/2026_w3_atl_gb_missing_players.csv
+            reports/official_refit.json
