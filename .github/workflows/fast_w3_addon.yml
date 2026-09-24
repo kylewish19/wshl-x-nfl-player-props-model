@@ -1,0 +1,25 @@
+name: Fast Week 3 addon shadow
+on:
+  push:
+    paths:
+      - '.github/workflows/fast_w3_addon.yml'
+permissions:
+  contents: read
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/train_addon_props.py
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_addon_props.csv --out predictions/2026_w3_atl_gb_addon.csv --model-root models/addon_v01
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-addon-fast
+          path: |
+            predictions/2026_w3_atl_gb_addon.csv
+            reports/addon_v0.1.0_validation.json
