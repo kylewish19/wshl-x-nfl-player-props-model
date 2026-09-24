@@ -1,0 +1,66 @@
+name: Fast frozen Week 3 remaining shadows
+on:
+  push:
+    paths:
+      - '.github/workflows/fast_w3_frozen_remaining.yml'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  addon:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: |
+          curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json"             https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10670476482/zip -o /tmp/addon.zip
+          unzip -q /tmp/addon.zip -d .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: python scripts/update_data.py
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_addon_props.csv --out predictions/2026_w3_atl_gb_addon_frozen.csv --model-root models/expansion_v01
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-addon-frozen
+          path: predictions/2026_w3_atl_gb_addon_frozen.csv
+  game:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: |
+          curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json"             https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10670106852/zip -o /tmp/game.zip
+          unzip -q /tmp/game.zip -d .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: python scripts/update_data.py --config config/game_model_config.yaml
+      - run: python scripts/predict_game_markets.py inputs/live/2026_w3_atl_gb_game.csv --out predictions/2026_w3_atl_gb_game_frozen.csv --model-root models/game_markets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-game-frozen
+          path: predictions/2026_w3_atl_gb_game_frozen.csv
+  alt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: |
+          curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json"             https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10692302469/zip -o /tmp/official.zip
+          unzip -q /tmp/official.zip -d .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: python scripts/update_data.py
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_alt_rush.csv --out predictions/2026_w3_atl_gb_alt_rush_frozen.csv --model-root models/official
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-alt-frozen
+          path: predictions/2026_w3_atl_gb_alt_rush_frozen.csv
