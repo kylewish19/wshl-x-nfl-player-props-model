@@ -1,0 +1,31 @@
+name: Finish Falcons Packers Week 3 shadows
+on:
+  push:
+    paths:
+      - '.github/workflows/finish_2026_w3_atl_gb.yml'
+permissions:
+  contents: read
+jobs:
+  finish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/train_addon_props.py
+      - run: python scripts/train_game_markets.py
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_addon_props.csv --out predictions/2026_w3_atl_gb_addon.csv --model-root models/addon_v01
+      - run: python scripts/predict_game_markets.py inputs/live/2026_w3_atl_gb_game.csv --out predictions/2026_w3_atl_gb_game.csv --model-root models/game_markets
+      - run: python scripts/predict_props.py inputs/live/2026_w3_atl_gb_alt_rush.csv --out predictions/2026_w3_atl_gb_alt_rush.csv --model-root models/official
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atl-gb-week3-shadows
+          path: |
+            predictions/2026_w3_atl_gb_addon.csv
+            predictions/2026_w3_atl_gb_game.csv
+            predictions/2026_w3_atl_gb_alt_rush.csv
+            reports/addon_v0.1.0_validation.json
+            reports/game_markets_v0.1.0.json
