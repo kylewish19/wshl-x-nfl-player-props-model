@@ -1,0 +1,8 @@
+model_or_gate,scope,wins,losses,record,notes
+Official locked card,5 official bets,2,3,2-3,"Counts only exact pregame lock"
+v0.5 applicable to official yardage bets,Love pass yds + Brooks rush + Kaleb rush,1,2,1-2,"Mandatory shadow; no promotion"
+v0.5 full directional card,13 supplied lines,3,10,3-10,"Diagnostic only; heavily hurt by receiving-role/game-script changes"
+v0.5 BET-tagged rows,9 model BET rows,2,7,2-7,"Diagnostic only"
+Addon full directional card,17 reception/TE lines,10,7,10-7,"Shadow only"
+Addon BET-tagged rows,12 BET rows,7,5,7-5,"Shadow only"
+Context gate audit,9 raw v0.3 signals removed pregame,8,1,8 avoided losses / 1 passed winner,"Gate worked as model-validity protection; do not count as betting W-L"
