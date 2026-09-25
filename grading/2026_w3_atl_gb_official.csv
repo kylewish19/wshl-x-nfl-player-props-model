@@ -1,0 +1,6 @@
+player,prop,pick,line,odds,model_projection,model_probability,actual,result,calibration_eligible,notes
+Kaleb Johnson,Rushing Yards,UNDER,37.5,-113,21.18,0.7967,6,WIN,true,"v0.3/v0.5 agreement; actual 4 carries for 6"
+Michael Penix Jr.,Rushing Yards,UNDER,5.5,-125,-1.68,0.7568,-2,WIN,true,"Returned from ACL; 2 rushes for -2"
+Jordan Love,Passing TDs,UNDER,1.5,-114,0.93,0.7628,2,LOSS,true,"Packers trailed heavily and Love threw 53 passes"
+Chris Brooks,Rushing Yards,OVER,14.5,-113,24.90,0.6808,0,LOSS,true,"No rushing attempts"
+Jordan Love,Passing Yards,UNDER,231.5,-113,205.71,0.6398,312,LOSS,true,"Game script forced 53 attempts"
