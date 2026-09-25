@@ -1,0 +1,6 @@
+model_version,season,week,game,player,prop,line,pick,odds,model_projection,model_probability,v05_projection,v05_probability,final_status,reason
+v0.3.0,2026,3,ATL@GB,Kaleb Johnson,Rushing Yards,37.5,UNDER,-113,21.18,0.7967,18.55,0.8035,BET,"v0.3/v0.5 agree; listed third on Packers RB depth chart"
+v0.3.0,2026,3,ATL@GB,Michael Penix Jr.,Rushing Yards,5.5,UNDER,-125,-1.68,0.7568,,,BET,"Model edge plus first game back from ACL; full practice/no game designation"
+v0.3.0,2026,3,ATL@GB,Jordan Love,Passing TDs,1.5,UNDER,-114,0.93,0.7628,,,BET,"Strong official model; Reed out and OL absences offset some concern from Atlanta CB injuries"
+v0.3.0,2026,3,ATL@GB,Chris Brooks,Rushing Yards,14.5,OVER,-113,24.90,0.6808,22.92,0.6799,BET,"v0.3/v0.5 agree; Brooks listed ahead of Kaleb Johnson"
+v0.3.0,2026,3,ATL@GB,Jordan Love,Passing Yards,231.5,UNDER,-113,205.71,0.6398,200.64,0.6569,BET,"v0.3/v0.5 agree; Jayden Reed and two starting-caliber OL unavailable"
