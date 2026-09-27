@@ -1,0 +1,4 @@
+locked_at_et,model_version,season,week,game,player,prop,line,pick,odds,v03_projection,v03_probability,v05_projection,v05_probability,status,reason
+2026-09-27 19:31,v0.3.0,2026,3,LAR@DEN,RJ Harvey,Rushing Yards,19.5,OVER,-113,41.41,0.8547,42.91,0.8937,BET,"v0.3/v0.5 strong agreement; active on official NFL inactive list; FanDuel line reverified pre-kickoff"
+2026-09-27 19:31,v0.3.0,2026,3,LAR@DEN,Jaylen Waddle,Receiving Yards,59.5,UNDER,-113,52.44,0.7371,48.92,0.7671,BET,"v0.3/v0.5 strong agreement; FanDuel line reverified pre-kickoff; Marvin Mims inactive but not a high-volume 2026 target-vacancy trigger"
+2026-09-27 19:31,v0.3.0,2026,3,LAR@DEN,Pat Bryant,Receiving Yards,24.5,OVER,-113,33.20,0.6545,30.47,0.5947,BET,"v0.3/v0.5 agree and both clear frozen Week 3 probability/edge gates; FanDuel line reverified pre-kickoff"
