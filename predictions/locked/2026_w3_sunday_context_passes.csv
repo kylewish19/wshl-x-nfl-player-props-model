@@ -1,0 +1,12 @@
+player,prop,line,raw_model_signal,final_decision,reason
+Garrett Wilson,Receiving Yards,74.5,"v0.3 UNDER 85.1%; v0.5 UNDER 85.7%",PASS,"Adonai Mitchell inactive creates target-vacancy/concentration risk; preserve Week-2 vacancy gate"
+Sam Darnold,Passing Yards,221.5,"v0.3 UNDER 91.5%; v0.5 UNDER 92.4%",PASS,"Returning to lineup after limited 2026 sample; frozen model likely overreacts to 13-yard first-game sample"
+Terry McLaurin,Receiving Yards,42.5,"v0.3 OVER 65.2%; v0.5 OVER 61.3%",PASS,"Jayden Daniels out; QB-change gate"
+Chris Olave,Receiving Yards,76.5,"v0.3 OVER 55.2%; v0.5 OVER 72.7%",PASS,"Official v0.3 below 57% probability floor"
+Jaxon Smith-Njigba,Receiving Yards,90.5,"v0.3 UNDER 65.9%; v0.5 OVER 73.3%",PASS,"Official and challenger disagree strongly"
+Ashton Jeanty,Rushing Yards,68.5,"v0.3 side UNDER 52.5%; v0.5 OVER 60.3%",PASS,"Official and challenger disagree / insufficient official edge"
+Derrick Henry,Rushing Yards,89.5,"v0.3 UNDER 57.7%; v0.5 UNDER 56.6%",PASS,"Line essentially at projection; weak edge"
+Breece Hall,Rushing Yards,59.5,"v0.3 UNDER 56.3%; v0.5 UNDER 52.8%",PASS,"Below official probability floor"
+Omarion Hampton,Rushing Yards,58.5,"v0.3 OVER 52.3%; v0.5 OVER 50.8%",PASS,"Line near model projection"
+Parker Washington,Receiving Yards,67.5,"v0.3 UNDER 53.8%; v0.5 UNDER 64.4%",PASS,"Official v0.3 below floor; challenger-only signal"
+Chris Godwin Jr.,Receiving Yards,35.5,"v0.3 UNDER 51.2%; v0.5 UNDER 63.7%",PASS,"Official model below floor; challenger-only signal"
