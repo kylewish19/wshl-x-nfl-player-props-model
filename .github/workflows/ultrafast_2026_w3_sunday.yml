@@ -1,0 +1,51 @@
+name: Ultra-fast Sunday Week 3 projections
+on:
+  push:
+    paths:
+      - .github/workflows/ultrafast_2026_w3_sunday.yml
+permissions:
+  actions: read
+  contents: read
+jobs:
+  official:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: Download frozen models
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -L -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10692302469/zip" -o /tmp/m.zip
+          unzip -q /tmp/m.zip -d .
+      - run: python scripts/update_data.py
+      - run: python scripts/project_full_slate_ultrafast.py --date 2026-09-27 --mode official --model-root models/official --out predictions/2026_w3_sunday_official_ultrafast.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sunday-w3-official-ultrafast
+          path: predictions/2026_w3_sunday_official_ultrafast.csv
+  v05:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: Download frozen models
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -L -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10666874411/zip" -o /tmp/m.zip
+          unzip -q /tmp/m.zip -d .
+      - run: python scripts/update_data.py
+      - run: python scripts/project_full_slate_ultrafast.py --date 2026-09-27 --mode v05 --model-root models/challenger_v05 --out predictions/2026_w3_sunday_v05_ultrafast.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sunday-w3-v05-ultrafast
+          path: predictions/2026_w3_sunday_v05_ultrafast.csv
