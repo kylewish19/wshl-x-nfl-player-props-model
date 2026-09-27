@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/run_2026_w3_snf.yml'
+      - 'inputs/live/2026_w3_lar_den_snf.csv'
 permissions:
   actions: read
   contents: read
