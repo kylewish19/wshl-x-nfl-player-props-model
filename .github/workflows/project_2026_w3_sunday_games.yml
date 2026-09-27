@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - .github/workflows/project_2026_w3_sunday_games.yml
+      - inputs/live/2026_w3_sunday_game_markets.csv
 permissions:
   actions: read
   contents: read
