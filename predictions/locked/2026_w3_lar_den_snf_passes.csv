@@ -1,0 +1,10 @@
+player,prop,line,raw_model_signal,final_decision,reason
+Matthew Stafford,Passing Yards,242.5,"v0.3 OVER 51.4%; v0.5 OVER 50.7%",PASS,"Below frozen official probability floor and edge gate"
+Matthew Stafford,Rushing Yards,0.5,"v0.3 UNDER 50.5%",PASS,"Below frozen official probability floor; v0.5 does not cover QB rushing"
+Kyren Williams,Rushing Yards,54.5,"v0.3 UNDER 56.4%; v0.5 UNDER 62.2%",PASS,"Official v0.3 below frozen 57% probability floor"
+Blake Corum,Rushing Yards,46.5,"v0.3 OVER 50.4%; v0.5 UNDER 61.4%",PASS,"Official below floor and models disagree on side"
+J.K. Dobbins,Rushing Yards,50.5,"v0.3 OVER 53.9%; v0.5 UNDER 51.1%",PASS,"Official below floor and models disagree on side"
+Bo Nix,Rushing Yards,16.5,"v0.3 OVER 54.2%",PASS,"Below frozen official probability floor; v0.5 does not cover QB rushing"
+Davante Adams,Receiving Yards,71.5,"v0.3 UNDER 71.3%; v0.5 UNDER 66.3%",PASS,"Puka Nacua inactive triggers the Week 3 high-volume target-vacancy gate; do not promote the raw receiving-under signal"
+Courtland Sutton,Receiving Yards,36.5,"v0.3 OVER 62.8%; v0.5 OVER 53.7%",PASS,"v0.5 agrees on direction but fails the frozen 57% probability and 4-point edge gates; insufficient cross-model support"
+RJ Harvey,Receiving Yards,17.5,"v0.3 OVER 53.7%; v0.5 OVER 55.5%",PASS,"Both models below frozen probability floor"
