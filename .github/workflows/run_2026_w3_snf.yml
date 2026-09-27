@@ -41,7 +41,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: python scripts/update_data.py
-      - run: python scripts/predict_props.py inputs/live/2026_w3_lar_den_snf.csv --out predictions/2026_w3_lar_den_snf_v05.csv --model-root models/challenger_v05
+      - name: Filter to v0.5-supported prop families
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          src = pd.read_csv("inputs/live/2026_w3_lar_den_snf.csv")
+          src[src["prop"].isin(["qb_pass_yds","rb_rush_yds","rec_yds"])].to_csv("/tmp/2026_w3_lar_den_snf_v05.csv", index=False)
+          PY
+      - run: python scripts/predict_props.py /tmp/2026_w3_lar_den_snf_v05.csv --out predictions/2026_w3_lar_den_snf_v05.csv --model-root models/challenger_v05
       - uses: actions/upload-artifact@v4
         with:
           name: lar-den-snf-v05
