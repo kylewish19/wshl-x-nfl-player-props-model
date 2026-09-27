@@ -116,7 +116,14 @@ def predict_lines(lines: pd.DataFrame, player_stats: pd.DataFrame, schedules: pd
     points, probs, sides, edges, labels, algorithms = [], [], [], [], [], []
     for i, line in out.iterrows():
         model = load_model(str(line.prop), root=model_root)
-        X = rows.iloc[[i]]
+        X = rows.iloc[[i]].copy()
+        # Normalize nullable pandas categorical values at inference time. This
+        # does not alter model parameters; it matches the training-time
+        # categorical normalization and prevents pd.NA from reaching sklearn.
+        for cat_col in getattr(model, "categorical_features", []):
+            if cat_col in X.columns:
+                s = X[cat_col].astype(object)
+                X[cat_col] = s.where(pd.notna(s), "__MISSING__").astype(str)
         p_over = float(model.probability_over(X, float(line.line))[0])
         point = float(model.predict_point(X)[0])
         if line.prop == "sack_yes":
