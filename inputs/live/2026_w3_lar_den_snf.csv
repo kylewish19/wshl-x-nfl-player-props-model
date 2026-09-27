@@ -1,5 +1,13 @@
 player_display_name,team,prop,line,over_odds,under_odds
-Matthew Stafford,LAR,qb_pass_yds,236.5,-113,-113
-Bo Nix,DEN,qb_pass_yds,211.5,-113,-113
-Davante Adams,LAR,rec_yds,71.5,-113,-113
+Matthew Stafford,LA,qb_pass_yds,242.5,-113,-113
+Matthew Stafford,LA,qb_rush_yds,0.5,118,-150
+Kyren Williams,LA,rb_rush_yds,54.5,-113,-113
+Blake Corum,LA,rb_rush_yds,46.5,-113,-113
+J.K. Dobbins,DEN,rb_rush_yds,50.5,-113,-113
+RJ Harvey,DEN,rb_rush_yds,19.5,-113,-113
+Bo Nix,DEN,qb_rush_yds,16.5,-113,-113
+Davante Adams,LA,rec_yds,71.5,-113,-113
 Jaylen Waddle,DEN,rec_yds,59.5,-113,-113
+Courtland Sutton,DEN,rec_yds,36.5,-113,-113
+Pat Bryant,DEN,rec_yds,24.5,-113,-113
+RJ Harvey,DEN,rec_yds,17.5,-113,-113
