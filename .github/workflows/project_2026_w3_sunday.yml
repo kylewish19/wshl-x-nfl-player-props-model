@@ -1,0 +1,63 @@
+name: Project full Sunday Week 3 slate
+on:
+  push:
+    paths:
+      - '.github/workflows/project_2026_w3_sunday.yml'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  official:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: |
+          curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json"           https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10692302469/zip -o /tmp/official.zip
+          unzip -q /tmp/official.zip -d .
+        env: {GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}}
+      - run: python scripts/update_data.py
+      - run: python scripts/project_full_slate.py --date 2026-09-27 --mode official --model-root models/official --out predictions/2026_w3_sunday_official_projections.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sunday-w3-official-projections
+          path: predictions/2026_w3_sunday_official_projections.csv
+  v05:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: |
+          curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json"           https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10666874411/zip -o /tmp/v05.zip
+          unzip -q /tmp/v05.zip -d .
+        env: {GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}}
+      - run: python scripts/update_data.py
+      - run: python scripts/project_full_slate.py --date 2026-09-27 --mode v05 --model-root models/challenger_v05 --out predictions/2026_w3_sunday_v05_projections.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sunday-w3-v05-projections
+          path: predictions/2026_w3_sunday_v05_projections.csv
+  addon:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: |
+          curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json"           https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10670476482/zip -o /tmp/addon.zip
+          unzip -q /tmp/addon.zip -d .
+        env: {GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}}
+      - run: python scripts/update_data.py
+      - run: python scripts/project_full_slate.py --date 2026-09-27 --mode addon --model-root models/expansion_v01 --out predictions/2026_w3_sunday_addon_projections.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sunday-w3-addon-projections
+          path: predictions/2026_w3_sunday_addon_projections.csv
