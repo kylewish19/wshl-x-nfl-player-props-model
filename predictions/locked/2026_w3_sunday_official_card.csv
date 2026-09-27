@@ -1,0 +1,5 @@
+locked_at_et,model_version,season,week,game,player,prop,line,pick,odds,v03_projection,v03_probability,v05_projection,v05_probability,status,reason
+2026-09-27 12:20,v0.3.0,2026,3,BAL@DAL,CeeDee Lamb,Receiving Yards,82.5,UNDER,-113,64.81,0.8353,67.35,0.8090,BET,"v0.3/v0.5 strong agreement; verified FanDuel line"
+2026-09-27 12:20,v0.3.0,2026,3,NYJ@DET,Jahmyr Gibbs,Rushing Yards,89.5,UNDER,-113,72.53,0.8018,70.64,0.8026,BET,"v0.3/v0.5 strong agreement; line well above both projections"
+2026-09-27 12:20,v0.3.0,2026,3,LAC@BUF,James Cook,Rushing Yards,79.5,UNDER,-113,66.22,0.7728,64.28,0.7732,BET,"v0.3/v0.5 strong agreement; verified FanDuel line"
+2026-09-27 12:20,v0.3.0,2026,3,LAC@BUF,Justin Herbert,Passing Yards,224.5,UNDER,-113,190.80,0.6804,182.34,0.7130,BET,"v0.3/v0.5 agree; verified FanDuel line"
