@@ -31,20 +31,58 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: python scripts/update_data.py
-      - name: Run frozen official v0.3
-        run: python scripts/predict_props.py inputs/live/2026_w3_phi_chi_mnf.csv --out predictions/2026_w3_phi_chi_mnf_official.csv --model-root models/official
-      - name: Filter and run v0.5-supported prop families
+      - name: Run frozen official v0.3 on resolvable players
         run: |
           python - <<'PY'
-          import pandas as pd
-          src = pd.read_csv("inputs/live/2026_w3_phi_chi_mnf.csv")
-          src[src["prop"].isin(["qb_pass_yds","rb_rush_yds","rec_yds"])].to_csv("/tmp/2026_w3_phi_chi_mnf_v05.csv", index=False)
+          from pathlib import Path
+          import pandas as pd, yaml
+          from wshlx_nfl_props.data import load_raw
+          from wshlx_nfl_props.predict import predict_lines
+
+          cfg=yaml.safe_load(Path("config/model_config.yaml").read_text())
+          d=load_raw()
+          lines=pd.read_csv("inputs/live/2026_w3_phi_chi_mnf.csv")
+          names=set(d["player_stats"]["player_display_name"].astype(str).str.lower())
+          ok=lines["player_display_name"].astype(str).str.lower().isin(names)
+          lines.loc[~ok, ["player_display_name","team","prop","line"]].to_csv("predictions/2026_w3_phi_chi_mnf_unresolved.csv",index=False)
+          valid=lines.loc[ok].copy()
+          out=predict_lines(valid,d["player_stats"],d["schedules"],d.get("pbp"),
+                            model_root="models/official",
+                            probability_floor=cfg["official_probability_floor"],
+                            min_prob_edge=cfg["minimum_probability_edge"],
+                            auxiliary=d)
+          Path("predictions").mkdir(exist_ok=True)
+          out.to_csv("predictions/2026_w3_phi_chi_mnf_official.csv",index=False)
+          print(out.to_string(index=False))
+          print("UNRESOLVED")
+          print(lines.loc[~ok, ["player_display_name","team","prop","line"]].to_string(index=False))
           PY
-          python scripts/predict_props.py /tmp/2026_w3_phi_chi_mnf_v05.csv --out predictions/2026_w3_phi_chi_mnf_v05.csv --model-root models/challenger_v05
+      - name: Run v0.5-supported prop families on resolvable players
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import pandas as pd, yaml
+          from wshlx_nfl_props.data import load_raw
+          from wshlx_nfl_props.predict import predict_lines
+
+          cfg=yaml.safe_load(Path("config/model_config.yaml").read_text())
+          d=load_raw()
+          lines=pd.read_csv("inputs/live/2026_w3_phi_chi_mnf.csv")
+          lines=lines[lines["prop"].isin(["qb_pass_yds","rb_rush_yds","rec_yds"])].copy()
+          names=set(d["player_stats"]["player_display_name"].astype(str).str.lower())
+          valid=lines[lines["player_display_name"].astype(str).str.lower().isin(names)].copy()
+          out=predict_lines(valid,d["player_stats"],d["schedules"],d.get("pbp"),
+                            model_root="models/challenger_v05",
+                            probability_floor=cfg["official_probability_floor"],
+                            min_prob_edge=cfg["minimum_probability_edge"],
+                            auxiliary=d)
+          out.to_csv("predictions/2026_w3_phi_chi_mnf_v05.csv",index=False)
+          print(out.to_string(index=False))
+          PY
       - name: Commit frozen raw outputs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add predictions/2026_w3_phi_chi_mnf_official.csv predictions/2026_w3_phi_chi_mnf_v05.csv
+          git add predictions/2026_w3_phi_chi_mnf_official.csv predictions/2026_w3_phi_chi_mnf_v05.csv predictions/2026_w3_phi_chi_mnf_unresolved.csv
           git commit -m "Run Eagles Bears MNF frozen Week 3 props" || exit 0
           git push
