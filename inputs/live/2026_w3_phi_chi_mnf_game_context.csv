@@ -1,0 +1,2 @@
+game,spread_home,spread_home_odds,spread_away,spread_away_odds,home_ml,away_ml,total,total_over_odds,total_under_odds,usage
+PHI@CHI,+3.5,-110,-3.5,-110,+166,-198,42.5,-110,-110,"context only; not an official player-prop model market"
