@@ -1,0 +1,2 @@
+locked_at_et,model_version,season,week,game,player,prop,line,pick,odds,v03_projection,v03_probability,v05_projection,v05_probability,status,reason
+2026-09-28 18:58,v0.3.0,2026,3,PHI@CHI,Darius Cooper,Receiving Yards,5.5,OVER,+118,17.430058,0.730080,16.653029,0.738559,BET,"v0.3/v0.5 strong agreement; both clear frozen Week 3 probability/price gates; current Eagles depth chart lists Cooper at WR and target-vacancy context does not contradict the OVER signal"
