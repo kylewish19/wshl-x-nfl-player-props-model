@@ -1,0 +1,50 @@
+name: MNF Eagles Bears frozen Week 3 props
+on:
+  push:
+    paths:
+      - '.github/workflows/run_2026_w3_mnf.yml'
+      - 'inputs/live/2026_w3_phi_chi_mnf.csv'
+permissions:
+  actions: read
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: Restore frozen official models
+        run: |
+          curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10692302469/zip -o /tmp/official.zip
+          unzip -q /tmp/official.zip -d .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restore frozen v0.5 shadow models
+        run: |
+          curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10666874411/zip -o /tmp/v05.zip
+          unzip -q /tmp/v05.zip -d .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: python scripts/update_data.py
+      - name: Run frozen official v0.3
+        run: python scripts/predict_props.py inputs/live/2026_w3_phi_chi_mnf.csv --out predictions/2026_w3_phi_chi_mnf_official.csv --model-root models/official
+      - name: Filter and run v0.5-supported prop families
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          src = pd.read_csv("inputs/live/2026_w3_phi_chi_mnf.csv")
+          src[src["prop"].isin(["qb_pass_yds","rb_rush_yds","rec_yds"])].to_csv("/tmp/2026_w3_phi_chi_mnf_v05.csv", index=False)
+          PY
+          python scripts/predict_props.py /tmp/2026_w3_phi_chi_mnf_v05.csv --out predictions/2026_w3_phi_chi_mnf_v05.csv --model-root models/challenger_v05
+      - name: Commit frozen raw outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add predictions/2026_w3_phi_chi_mnf_official.csv predictions/2026_w3_phi_chi_mnf_v05.csv
+          git commit -m "Run Eagles Bears MNF frozen Week 3 props" || exit 0
+          git push
