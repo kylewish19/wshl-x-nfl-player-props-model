@@ -1,0 +1,31 @@
+player_display_name,team,prop,line,over_odds,under_odds,yes_odds
+Jalen Hurts,PHI,qb_pass_yds,218.5,-113,-113,
+Case Keenum,CHI,qb_pass_yds,167.5,-113,-113,
+Jalen Hurts,PHI,qb_pass_tds,1.5,136,-178,
+Case Keenum,CHI,qb_pass_tds,0.5,-235,175,
+Case Keenum,CHI,qb_rush_yds,2.5,-102,-125,
+Jalen Hurts,PHI,qb_rush_yds,24.5,-113,-113,
+Tank Bigsby,PHI,rb_rush_yds,12.5,-113,-113,
+Kyle Monangai,CHI,rb_rush_yds,38.5,-113,-113,
+Saquon Barkley,PHI,rb_rush_yds,72.5,-113,-113,
+D'Andre Swift,CHI,rb_rush_yds,60.5,-113,-113,
+Makai Lemon,PHI,rec_yds,26.5,-113,-113,
+Dontayvion Wicks,PHI,rec_yds,41.5,-113,-113,
+Kalif Raymond,CHI,rec_yds,22.5,-113,-113,
+Saquon Barkley,PHI,rec_yds,12.5,-113,-113,
+Luther Burden III,CHI,rec_yds,35.5,-113,-113,
+Rome Odunze,CHI,rec_yds,24.5,-113,-113,
+Kyle Monangai,CHI,rec_yds,8.5,-113,-113,
+Darius Cooper,PHI,rec_yds,5.5,118,-150,
+D'Andre Swift,CHI,rec_yds,13.5,-113,-113,
+DeVonta Smith,PHI,rec_yds,70.5,-113,-113,
+Nolan Smith Jr.,PHI,sack_yes,0.5,,,124
+Jalyx Hunt,PHI,sack_yes,0.5,,,120
+Jalen Carter,PHI,sack_yes,0.5,,,144
+Montez Sweat,CHI,sack_yes,0.5,,,182
+Moro Ojomo,PHI,sack_yes,0.5,,,225
+Dayo Odeyingbo,CHI,sack_yes,0.5,,,225
+Zack Baun,PHI,sack_yes,0.5,,,270
+Jordan Davis,PHI,sack_yes,0.5,,,310
+Grady Jarrett,CHI,sack_yes,0.5,,,360
+Jordan van den Berg,CHI,sack_yes,0.5,,,520
