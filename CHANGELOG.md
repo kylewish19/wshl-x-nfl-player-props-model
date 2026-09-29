@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026 Week 3 postgame — full slate
+- Official locked card finished **4-9 (30.8%)**: TNF 2-3, Sunday daytime 0-4, SNF 2-1, MNF 0-1.
+- v0.5 opportunity×efficiency shadow finished **3-8** on the 11 official markets it supports, the same directional W-L as v0.3 on that subset; **no promotion**.
+- Main Over failure mode was opportunity instability: Chris Brooks had 0 carries, RJ Harvey had 2 carries for 6 yards, and Darius Cooper had 0 targets.
+- Several 77-85% official signals failed, indicating early-season probability overconfidence and insufficient tail/game-script variance.
+- Preserve stale-QB and unstable-RB-role gates, but test replacing the blanket receiver QB-change veto with a probability haircut/uncertainty penalty after MNF Bears receiver Overs all cleared.
+- Before Week 4, backtest early-season calibration shrinkage, opportunity-reliability gating, stronger current-season snap/route/carry/target features, and wider game-script/team-volume variance.
+- Do not retrain or promote a model from Week 3 alone; all candidate changes require chronological backtesting.
+
 ## 2026 Week 2 postgame — Giants at Rams
 - First locked live player-prop card graded **5-5**.
 - Added postgame context tags distinguishing sportsbook result from calibration eligibility.
