@@ -1,0 +1,14 @@
+segment,game,player,prop,pick,line,actual,result
+TNF,ATL@GB,Kaleb Johnson,Rushing Yards,UNDER,37.5,6,WIN
+TNF,ATL@GB,Michael Penix Jr.,Rushing Yards,UNDER,5.5,-2,WIN
+TNF,ATL@GB,Jordan Love,Passing TDs,UNDER,1.5,2,LOSS
+TNF,ATL@GB,Chris Brooks,Rushing Yards,OVER,14.5,0,LOSS
+TNF,ATL@GB,Jordan Love,Passing Yards,UNDER,231.5,312,LOSS
+Sunday,BAL@DAL,CeeDee Lamb,Receiving Yards,UNDER,82.5,112,LOSS
+Sunday,NYJ@DET,Jahmyr Gibbs,Rushing Yards,UNDER,89.5,99,LOSS
+Sunday,LAC@BUF,James Cook,Rushing Yards,UNDER,79.5,154,LOSS
+Sunday,LAC@BUF,Justin Herbert,Passing Yards,UNDER,224.5,226,LOSS
+SNF,LAR@DEN,RJ Harvey,Rushing Yards,OVER,19.5,6,LOSS
+SNF,LAR@DEN,Jaylen Waddle,Receiving Yards,UNDER,59.5,10,WIN
+SNF,LAR@DEN,Pat Bryant,Receiving Yards,OVER,24.5,44,WIN
+MNF,PHI@CHI,Darius Cooper,Receiving Yards,OVER,5.5,0,LOSS
