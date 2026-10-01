@@ -1,0 +1,5 @@
+locked_at_et,model_version,season,week,game,player,prop,line,pick,odds,v03_projection,v03_probability,v05_projection,v05_probability,status,reason
+2026-10-01 18:22,v0.3.0,2026,4,PIT@CLE,Germie Bernard,Receiving Yards,8.5,OVER,-104,27.132786,0.840903,26.163215,0.852150,BET,"Strong v0.3/v0.5 agreement; 8.5-yard threshold; active with 35 and 14 receiving yards in Weeks 2-3"
+2026-10-01 18:22,v0.3.0,2026,4,PIT@CLE,Quinshon Judkins,Rushing Yards,56.5,UNDER,-113,52.875786,0.672448,50.931661,0.684742,BET,"v0.3/v0.5 agree; Browns missing starting C Elgton Jenkins and G Teven Jenkins; current 2026 rushing efficiency 3.0 YPC"
+2026-10-01 18:22,v0.3.0,2026,4,PIT@CLE,Roman Wilson,Receiving Yards,20.5,OVER,-113,29.404894,0.659400,27.766383,0.636820,BET,"v0.3/v0.5 agree; current starter with 114 receiving yards through three games"
+2026-10-01 18:22,v0.3.0,2026,4,PIT@CLE,Quinshon Judkins,Receiving Yards,11.5,OVER,-113,17.541935,0.585604,17.712483,0.603858,BET,"Both models clear frozen Week 4 floor/edge gate; stable receiving role with 53 yards through three games"
