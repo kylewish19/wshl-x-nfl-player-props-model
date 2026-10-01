@@ -1,0 +1,16 @@
+player_display_name,team,prop,line,over_odds,under_odds,yes_odds,season,week,opponent,model_point,pick,model_probability,probability_edge_vs_price,status,algorithm,feature_set
+Aaron Rodgers,PIT,qb_pass_yds,216.5,-113.0,-113.0,,2026,4,CLE,231.9664218710423,OVER,0.5521111704970604,0.05211117049706038,PASS,decomposed_random_forest_random_forest,pregame
+Deshaun Watson,CLE,qb_pass_yds,185.5,-113.0,-113.0,,2026,4,PIT,187.83511100956312,UNDER,0.510422234099412,0.010422234099412009,PASS,decomposed_random_forest_random_forest,pregame
+Raheim Sanders,CLE,rb_rush_yds,5.5,-113.0,-113.0,,2026,4,PIT,14.415366971270705,OVER,0.6915477497255763,0.1915477497255763,BET,decomposed_elastic_net_elastic_net,baseline
+Travis Homer,PIT,rb_rush_yds,6.5,-113.0,-113.0,,2026,4,CLE,4.134602232942297,UNDER,0.6432491767288694,0.1432491767288694,BET,decomposed_elastic_net_elastic_net,baseline
+Jaylen Warren,PIT,rb_rush_yds,75.5,-113.0,-113.0,,2026,4,CLE,65.86566822061111,UNDER,0.725576289791438,0.22557628979143796,BET,decomposed_elastic_net_elastic_net,baseline
+Quinshon Judkins,CLE,rb_rush_yds,56.5,-113.0,-113.0,,2026,4,PIT,50.931661388542125,UNDER,0.6847420417124039,0.18474204171240394,BET,decomposed_elastic_net_elastic_net,baseline
+Roman Wilson,PIT,rec_yds,20.5,-113.0,-113.0,,2026,4,CLE,27.766382960726535,OVER,0.6368197940998356,0.13681979409983558,BET,decomposed_elastic_net_elastic_net,baseline
+KC Concepcion,CLE,rec_yds,35.5,-113.0,-113.0,,2026,4,PIT,41.29661832913019,OVER,0.5868154684661303,0.08681546846613031,BET,decomposed_elastic_net_elastic_net,baseline
+Denzel Boston,CLE,rec_yds,37.5,-113.0,-113.0,,2026,4,PIT,43.20801906137404,OVER,0.5835279868500736,0.08352798685007357,BET,decomposed_elastic_net_elastic_net,baseline
+Jaylen Warren,PIT,rec_yds,25.5,-113.0,-113.0,,2026,4,CLE,21.212184215732293,UNDER,0.6931395449433342,0.19313954494333418,BET,decomposed_elastic_net_elastic_net,baseline
+DK Metcalf,PIT,rec_yds,45.5,-113.0,-113.0,,2026,4,CLE,46.49330713910642,UNDER,0.5964183752919803,0.09641837529198027,BET,decomposed_elastic_net_elastic_net,baseline
+Quinshon Judkins,CLE,rec_yds,11.5,-113.0,-113.0,,2026,4,PIT,17.7124831775719,OVER,0.6038584652651613,0.10385846526516129,BET,decomposed_elastic_net_elastic_net,baseline
+Raheim Sanders,CLE,rec_yds,12.5,-113.0,-113.0,,2026,4,PIT,13.522280404884727,UNDER,0.594774634483952,0.09477463448395196,BET,decomposed_elastic_net_elastic_net,baseline
+Jerry Jeudy,CLE,rec_yds,14.5,-113.0,-113.0,,2026,4,PIT,27.782435481676938,OVER,0.7825071372956138,0.28250713729561383,BET,decomposed_elastic_net_elastic_net,baseline
+Germie Bernard,PIT,rec_yds,8.5,-104.0,-122.0,,2026,4,CLE,26.16321522112869,OVER,0.8521498399515529,0.37090921964139795,BET,decomposed_elastic_net_elastic_net,baseline
