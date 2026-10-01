@@ -1,0 +1,28 @@
+player_display_name,team,prop,line,over_odds,under_odds,yes_odds
+Aaron Rodgers,PIT,qb_pass_yds,216.5,-113,-113,
+Deshaun Watson,CLE,qb_pass_yds,185.5,-113,-113,
+Aaron Rodgers,PIT,qb_rush_yds,0.5,-140,110,
+Deshaun Watson,CLE,qb_rush_yds,27.5,-113,-113,
+Raheim Sanders,CLE,rb_rush_yds,5.5,-113,-113,
+Travis Homer,PIT,rb_rush_yds,6.5,-113,-113,
+Jaylen Warren,PIT,rb_rush_yds,75.5,-113,-113,
+Quinshon Judkins,CLE,rb_rush_yds,56.5,-113,-113,
+Roman Wilson,PIT,rec_yds,20.5,-113,-113,
+KC Concepcion,CLE,rec_yds,35.5,-113,-113,
+Denzel Boston,CLE,rec_yds,37.5,-113,-113,
+Jaylen Warren,PIT,rec_yds,25.5,-113,-113,
+DK Metcalf,PIT,rec_yds,45.5,-113,-113,
+Michael Pittman Jr.,PIT,rec_yds,33.5,-113,-113,
+Quinshon Judkins,CLE,rec_yds,11.5,-113,-113,
+Raheim Sanders,CLE,rec_yds,12.5,-113,-113,
+Jerry Jeudy,CLE,rec_yds,14.5,-113,-113,
+Germie Bernard,PIT,rec_yds,8.5,-104,-122,
+T.J. Watt,PIT,sack_yes,0.5,,, -178
+Alex Highsmith,PIT,sack_yes,0.5,,, -158
+Mason Graham,CLE,sack_yes,0.5,,,144
+Derrick Harmon,PIT,sack_yes,0.5,,,174
+Maliek Collins,CLE,sack_yes,0.5,,,205
+Isaiah McGuire,CLE,sack_yes,0.5,,,225
+Derek Barnett,CLE,sack_yes,0.5,,,280
+Carson Schwesinger,CLE,sack_yes,0.5,,,320
+Cameron Heyward,PIT,sack_yes,0.5,,,350
