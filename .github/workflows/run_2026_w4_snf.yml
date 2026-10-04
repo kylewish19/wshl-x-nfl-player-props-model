@@ -1,0 +1,90 @@
+name: SNF Lions Panthers frozen Week 4 props
+on:
+  push:
+    paths:
+      - '.github/workflows/run_2026_w4_snf.yml'
+      - 'inputs/live/2026_w4_det_car_snf.csv'
+permissions:
+  actions: read
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: Restore frozen official models
+        run: |
+          curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10692302469/zip -o /tmp/official.zip
+          unzip -q /tmp/official.zip -d .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restore frozen v0.5 shadow models
+        run: |
+          curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10666874411/zip -o /tmp/v05.zip
+          unzip -q /tmp/v05.zip -d .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: python scripts/update_data.py
+      - name: Run frozen official v0.3
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import pandas as pd, yaml
+          from wshlx_nfl_props.data import load_raw
+          from wshlx_nfl_props.predict import predict_lines
+
+          cfg=yaml.safe_load(Path("config/model_config.yaml").read_text())
+          d=load_raw()
+          lines=pd.read_csv("inputs/live/2026_w4_det_car_snf.csv")
+          names=set(d["player_stats"]["player_display_name"].astype(str).str.lower())
+          ok=lines["player_display_name"].astype(str).str.lower().isin(names)
+          lines.loc[~ok, ["player_display_name","team","prop","line"]].to_csv("predictions/2026_w4_det_car_snf_unresolved.csv",index=False)
+          valid=lines.loc[ok].copy()
+          out=predict_lines(valid,d["player_stats"],d["schedules"],d.get("pbp"),
+                            model_root="models/official",
+                            probability_floor=cfg["official_probability_floor"],
+                            min_prob_edge=cfg["minimum_probability_edge"],
+                            auxiliary=d)
+          Path("predictions").mkdir(exist_ok=True)
+          out.to_csv("predictions/2026_w4_det_car_snf_official.csv",index=False)
+          print("OFFICIAL_OUTPUT")
+          print(out.to_string(index=False))
+          print("UNRESOLVED")
+          print(lines.loc[~ok, ["player_display_name","team","prop","line"]].to_string(index=False))
+          PY
+      - name: Run v0.5-supported prop families
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import pandas as pd, yaml
+          from wshlx_nfl_props.data import load_raw
+          from wshlx_nfl_props.predict import predict_lines
+
+          cfg=yaml.safe_load(Path("config/model_config.yaml").read_text())
+          d=load_raw()
+          lines=pd.read_csv("inputs/live/2026_w4_det_car_snf.csv")
+          lines=lines[lines["prop"].isin(["qb_pass_yds","rb_rush_yds","rec_yds"])].copy()
+          names=set(d["player_stats"]["player_display_name"].astype(str).str.lower())
+          valid=lines[lines["player_display_name"].astype(str).str.lower().isin(names)].copy()
+          out=predict_lines(valid,d["player_stats"],d["schedules"],d.get("pbp"),
+                            model_root="models/challenger_v05",
+                            probability_floor=cfg["official_probability_floor"],
+                            min_prob_edge=cfg["minimum_probability_edge"],
+                            auxiliary=d)
+          out.to_csv("predictions/2026_w4_det_car_snf_v05.csv",index=False)
+          print("V05_OUTPUT")
+          print(out.to_string(index=False))
+          PY
+      - name: Commit raw outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f predictions/2026_w4_det_car_snf_official.csv predictions/2026_w4_det_car_snf_v05.csv predictions/2026_w4_det_car_snf_unresolved.csv
+          git commit -m "Run Lions Panthers Week 4 frozen props" || exit 0
+          git push
