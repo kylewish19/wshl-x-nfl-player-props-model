@@ -1,0 +1,15 @@
+player_display_name,team,prop,line,over_odds,under_odds,yes_odds,season,week,opponent,model_point,pick,model_probability,probability_edge_vs_price,status,algorithm,feature_set
+Bryce Young,CAR,qb_pass_yds,243.5,-113.0,-113.0,,2026,4,DET,218.0498391353167,UNDER,0.6333511491181186,0.13335114911811863,BET,decomposed_random_forest_random_forest,pregame
+Jared Goff,DET,qb_pass_yds,257.5,-113.0,-113.0,,2026,4,CAR,273.28333609053124,OVER,0.5542490646712988,0.05424906467129875,PASS,decomposed_random_forest_random_forest,pregame
+Jahmyr Gibbs,DET,rb_rush_yds,95.5,-113.0,-113.0,,2026,4,CAR,78.97739015438697,UNDER,0.7826564215148188,0.28265642151481885,BET,decomposed_elastic_net_elastic_net,baseline
+Chuba Hubbard,CAR,rb_rush_yds,64.5,-113.0,-113.0,,2026,4,DET,51.320043477331495,UNDER,0.7589462129527991,0.25894621295279907,BET,decomposed_elastic_net_elastic_net,baseline
+Sione Vaki,DET,rb_rush_yds,10.5,-113.0,-113.0,,2026,4,CAR,11.131495659394345,UNDER,0.5670691547749726,0.06706915477497255,PASS,decomposed_elastic_net_elastic_net,baseline
+AJ Dillon,CAR,rb_rush_yds,11.5,-113.0,-113.0,,2026,4,DET,13.489409069874254,UNDER,0.5198682766190998,0.019868276619099845,PASS,decomposed_elastic_net_elastic_net,baseline
+Amon-Ra St. Brown,DET,rec_yds,76.5,-113.0,-113.0,,2026,4,CAR,84.08249325971273,OVER,0.6472878276667532,0.1472878276667532,BET,decomposed_elastic_net_elastic_net,baseline
+Tetairoa McMillan,CAR,rec_yds,71.5,-113.0,-113.0,,2026,4,DET,44.14826704940503,UNDER,0.8842460420451597,0.38424604204515966,BET,decomposed_elastic_net_elastic_net,baseline
+Jameson Williams,DET,rec_yds,50.5,-113.0,-113.0,,2026,4,CAR,44.00627138912531,UNDER,0.7240245695994463,0.22402456959944628,BET,decomposed_elastic_net_elastic_net,baseline
+Chuba Hubbard,CAR,rec_yds,18.5,-113.0,-113.0,,2026,4,DET,15.744937674386746,UNDER,0.6696080975862964,0.16960809758629636,BET,decomposed_elastic_net_elastic_net,baseline
+Jahmyr Gibbs,DET,rec_yds,35.5,-113.0,-113.0,,2026,4,CAR,38.289378912772136,UNDER,0.531793407734233,0.031793407734233003,PASS,decomposed_elastic_net_elastic_net,baseline
+Brycen Tremayne,CAR,rec_yds,33.5,-113.0,-113.0,,2026,4,DET,14.321016883164361,UNDER,0.8370966346569773,0.33709663465697726,BET,decomposed_elastic_net_elastic_net,baseline
+John Metchie III,CAR,rec_yds,17.5,-113.0,-113.0,,2026,4,DET,22.787846061809486,OVER,0.5672636041180033,0.06726360411800325,PASS,decomposed_elastic_net_elastic_net,baseline
+Isaac TeSlaa,DET,rec_yds,18.5,-113.0,-113.0,,2026,4,CAR,21.896419824571673,UNDER,0.5061856561986331,0.006185656198633094,PASS,decomposed_elastic_net_elastic_net,baseline
