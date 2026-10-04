@@ -1,0 +1,29 @@
+player_display_name,team,prop,line,over_odds,under_odds,yes_odds
+Bryce Young,CAR,qb_pass_yds,243.5,-113,-113,
+Jared Goff,DET,qb_pass_yds,257.5,-113,-113,
+Jared Goff,DET,qb_pass_tds,1.5,-210,158,
+Bryce Young,CAR,qb_pass_tds,1.5,-128,-102,
+Jahmyr Gibbs,DET,rb_rush_yds,95.5,-113,-113,
+Chuba Hubbard,CAR,rb_rush_yds,64.5,-113,-113,
+Jared Goff,DET,qb_rush_yds,1.5,-113,-113,
+Sione Vaki,DET,rb_rush_yds,10.5,-113,-113,
+AJ Dillon,CAR,rb_rush_yds,11.5,-113,-113,
+Bryce Young,CAR,qb_rush_yds,12.5,-113,-113,
+Amon-Ra St. Brown,DET,rec_yds,76.5,-113,-113,
+Tetairoa McMillan,CAR,rec_yds,71.5,-113,-113,
+Jameson Williams,DET,rec_yds,50.5,-113,-113,
+Chuba Hubbard,CAR,rec_yds,18.5,-113,-113,
+Jahmyr Gibbs,DET,rec_yds,35.5,-113,-113,
+Brycen Tremayne,CAR,rec_yds,33.5,-113,-113,
+John Metchie III,CAR,rec_yds,17.5,-113,-113,
+Isaac TeSlaa,DET,rec_yds,18.5,-113,-113,
+Aidan Hutchinson,DET,sack_yes,0.5,,,-205
+Jaelan Phillips,CAR,sack_yes,0.5,,,120
+DJ Wonnum,DET,sack_yes,0.5,,,182
+Derrick Brown,CAR,sack_yes,0.5,,,225
+Alim McNeill,DET,sack_yes,0.5,,,235
+Princely Umanmielen,CAR,sack_yes,0.5,,,250
+Derrick Barnes,DET,sack_yes,0.5,,,290
+Jack Campbell,DET,sack_yes,0.5,,,370
+Devin Lloyd,CAR,sack_yes,0.5,,,550
+Tyleik Williams,DET,sack_yes,0.5,,,630
