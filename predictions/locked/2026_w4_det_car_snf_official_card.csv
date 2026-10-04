@@ -1,0 +1,2 @@
+locked_at_et,model_version,season,week,game,player,prop,line,pick,odds,v03_projection,v03_probability,v05_projection,v05_probability,status,reason
+2026-10-04 19:52,v0.3.0,2026,4,DET@CAR,John Metchie III,Receiving Yards,17.5,OVER,-113,24.018502,0.599360,22.787846,0.567264,BET,"v0.3 clears probability/price gates; v0.5 agrees on direction; Jalen Coker and Xavier Legette are out, increasing Metchie's route/target opportunity after 5 targets and 19 yards in Week 3"
