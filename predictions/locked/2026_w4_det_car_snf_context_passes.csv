@@ -1,0 +1,9 @@
+player,prop,line,raw_model_signal,final_decision,reason
+Tetairoa McMillan,Receiving Yards,71.5,"v0.3 UNDER 87.6%; v0.5 UNDER 88.4%",PASS,"Target-vacancy gate: Xavier Legette and Jalen Coker are out, increasing target-concentration risk against a receiving Under"
+Brycen Tremayne,Receiving Yards,33.5,"v0.3 UNDER 83.0%; v0.5 UNDER 83.7%",PASS,"Role-expansion gate: Legette and Coker are out, creating materially more routes/targets than the frozen model role state may capture"
+Jahmyr Gibbs,Rushing Yards,95.5,"v0.3 UNDER 78.2%; v0.5 UNDER 78.3%",PASS,"Current-role gate: Gibbs is averaging 21.7 carries and 102.3 rushing yards through three games, with two of three games above this line; Carolina's depleted defense and tonight's wet conditions add rushing-volume tail risk"
+Chuba Hubbard,Rushing Yards,64.5,"v0.3 UNDER 76.2%; v0.5 UNDER 75.9%",PASS,"Opportunity-trend gate: Hubbard rose to 19 carries and 82 yards in Week 3 and is the clear lead back; line is close to his 61.3-yard season average and wet weather could increase attempts"
+Jameson Williams,Receiving Yards,50.5,"v0.3 UNDER 69.3%; v0.5 UNDER 72.4%",PASS,"Matchup-state gate: Carolina placed both starting outside cornerbacks Jaycee Horn and Mike Jackson on IR, materially changing the receiving matchup against an Under"
+Chuba Hubbard,Receiving Yards,18.5,"v0.3 UNDER 65.0%; v0.5 UNDER 67.0%",PASS,"Target-vacancy gate: Legette and Coker are out; Hubbard already averages 25.7 receiving yards and had 28 last week"
+AJ Dillon,Rushing Yards,11.5,"v0.3 UNDER 59.6%; v0.5 UNDER 52.0%",PASS,"Weak cross-model support plus low-volume backup-role uncertainty"
+Isaac TeSlaa,Receiving Yards,18.5,"v0.3 OVER 59.5%; v0.5 UNDER 50.6%",PASS,"Official and challenger disagree on side"
