@@ -1,0 +1,34 @@
+name: Project Lions Panthers Week 4 game markets
+on:
+  push:
+    paths:
+      - '.github/workflows/project_2026_w4_det_car_snf_games.yml'
+      - 'inputs/live/2026_w4_det_car_snf_game_markets.csv'
+permissions:
+  actions: read
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: Download frozen game models
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -L -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10670106852/zip" -o /tmp/game.zip
+          unzip -q /tmp/game.zip -d .
+      - run: python scripts/update_data.py --config config/game_model_config.yaml
+      - run: python scripts/predict_game_markets.py inputs/live/2026_w4_det_car_snf_game_markets.csv --out predictions/2026_w4_det_car_snf_game_markets.csv --model-root models/game_markets
+      - name: Commit shadow output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f predictions/2026_w4_det_car_snf_game_markets.csv
+          git commit -m "Project Lions Panthers Week 4 game-market shadow" || exit 0
+          git push
