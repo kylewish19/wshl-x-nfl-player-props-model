@@ -1,0 +1,175 @@
+{
+  "version": "0.3.0",
+  "calibration_years": [
+    2023,
+    2024,
+    2025
+  ],
+  "props": {
+    "qb_pass_yds": {
+      "official_version": "0.3.0",
+      "frozen_spec": "pregame:random_forest",
+      "walk_forward_folds": [
+        {
+          "year": 2023,
+          "rows": 616,
+          "mae": 67.58797942669626,
+          "rmse": 84.49060749121324
+        },
+        {
+          "year": 2024,
+          "rows": 636,
+          "mae": 65.00994751776726,
+          "rmse": 82.0224129761745
+        },
+        {
+          "year": 2025,
+          "rows": 619,
+          "mae": 65.9726613434408,
+          "rmse": 83.57258605466352
+        }
+      ],
+      "live_refit_rows": 3259,
+      "latest_season": 2026,
+      "latest_week": 12
+    },
+    "qb_pass_tds": {
+      "official_version": "0.3.0",
+      "frozen_spec": "pregame:poisson_glm",
+      "walk_forward_folds": [
+        {
+          "year": 2023,
+          "rows": 616,
+          "poisson_deviance": 1.0313993792207419,
+          "mae": 0.8065373098662494
+        },
+        {
+          "year": 2024,
+          "rows": 636,
+          "poisson_deviance": 1.0957667761795618,
+          "mae": 0.8667166130334848
+        },
+        {
+          "year": 2025,
+          "rows": 619,
+          "poisson_deviance": 1.1370266617126852,
+          "mae": 0.8992090191766627
+        }
+      ],
+      "live_refit_rows": 3259,
+      "latest_season": 2026,
+      "latest_week": 12
+    },
+    "qb_rush_yds": {
+      "official_version": "0.3.0",
+      "frozen_spec": "baseline:elastic_net",
+      "walk_forward_folds": [
+        {
+          "year": 2023,
+          "rows": 616,
+          "mae": 11.490270256353615,
+          "rmse": 15.881709920614469
+        },
+        {
+          "year": 2024,
+          "rows": 636,
+          "mae": 12.24277903078174,
+          "rmse": 17.245025479472986
+        },
+        {
+          "year": 2025,
+          "rows": 619,
+          "mae": 11.448610507302924,
+          "rmse": 15.458592486960569
+        }
+      ],
+      "live_refit_rows": 3259,
+      "latest_season": 2026,
+      "latest_week": 12
+    },
+    "rb_rush_yds": {
+      "official_version": "0.3.0",
+      "frozen_spec": "baseline:elastic_net",
+      "walk_forward_folds": [
+        {
+          "year": 2023,
+          "rows": 1503,
+          "mae": 18.191740886713077,
+          "rmse": 26.231930341737627
+        },
+        {
+          "year": 2024,
+          "rows": 1538,
+          "mae": 19.09426626122337,
+          "rmse": 27.374914511595932
+        },
+        {
+          "year": 2025,
+          "rows": 1556,
+          "mae": 18.76491999095927,
+          "rmse": 27.767603920068932
+        }
+      ],
+      "live_refit_rows": 8233,
+      "latest_season": 2026,
+      "latest_week": 12
+    },
+    "rec_yds": {
+      "official_version": "0.3.0",
+      "frozen_spec": "baseline:elastic_net",
+      "walk_forward_folds": [
+        {
+          "year": 2023,
+          "rows": 3824,
+          "mae": 17.294931223355455,
+          "rmse": 25.461200668105842
+        },
+        {
+          "year": 2024,
+          "rows": 3836,
+          "mae": 16.700558114476376,
+          "rmse": 24.47373482477298
+        },
+        {
+          "year": 2025,
+          "rows": 3921,
+          "mae": 16.229640049055504,
+          "rmse": 23.416450620432222
+        }
+      ],
+      "live_refit_rows": 20623,
+      "latest_season": 2026,
+      "latest_week": 12
+    },
+    "sack_yes": {
+      "official_version": "0.3.0",
+      "frozen_spec": "enriched:hist_gbc",
+      "walk_forward_folds": [
+        {
+          "year": 2023,
+          "rows": 5259,
+          "brier": 0.14961163835297409,
+          "log_loss": 0.4660960851433731,
+          "auc": 0.7210194829385405
+        },
+        {
+          "year": 2024,
+          "rows": 5461,
+          "brier": 0.14141455594702376,
+          "log_loss": 0.4466619776934645,
+          "auc": 0.7079524427270456
+        },
+        {
+          "year": 2025,
+          "rows": 5803,
+          "brier": 0.13295546777971676,
+          "log_loss": 0.4211062701746947,
+          "auc": 0.7271900661892035
+        }
+      ],
+      "live_refit_rows": 29081,
+      "latest_season": 2026,
+      "latest_week": 12
+    }
+  }
+}
