@@ -1,0 +1,44 @@
+name: Week 12 live pregame smoke test
+on:
+  push:
+    paths:
+      - '.github/workflows/audit_2026_w12_live_smoke.yml'
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: Restore pinned models
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          for id in 15129935005 10666874411; do
+            curl --fail --location --silent --show-error -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/$id/zip" -o "/tmp/$id.zip"
+            unzip -oq "/tmp/$id.zip" -d .
+          done
+      - run: python scripts/update_data.py
+      - run: python scripts/audit_week12_live_smoke.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: week12-live-smoke
+          path: reports/2026_w12_live_smoke.json
+      - name: Record preflight
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/2026_w12_live_smoke.json
+          git commit -m "Record Week 12 live inference smoke test" || exit 0
+          for attempt in 1 2 3 4; do
+            git pull --rebase && git push && exit 0
+            sleep 2
+          done
+          exit 1
