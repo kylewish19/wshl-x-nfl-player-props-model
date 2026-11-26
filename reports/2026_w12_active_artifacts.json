@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-26T14:27:00Z",
-  "status": "refit_verified_live_preflight_pending",
+  "status": "matched_refits_verified_joint_preflight_pending",
   "completed_games": 164,
   "official": {
     "version": "0.3.0",
@@ -13,9 +13,13 @@
   },
   "shadow": {
     "version": "0.5.0-shadow",
-    "artifact_id": 10666874411,
-    "training_through": "2026 Week 2",
-    "status": "older frozen weights; fixed-spec refit needed for matched comparison"
+    "artifact_id": 15129795747,
+    "run_id": 45843049257,
+    "model_root": "models/challenger_v05",
+    "training_through": "2026 Week 12 completed games at pinned cutoff",
+    "refit_report": "reports/2026_w12_v05_refit.json",
+    "previous_artifact_id": 10666874411,
+    "status": "training and artifact upload succeeded; joint preflight pending"
   },
   "game_markets": {
     "status": "shadow_only"
@@ -23,8 +27,14 @@
   "reporting": {
     "helper": "src/wshlx_nfl_props/reporting.py",
     "entrypoint": "scripts/build_reviewed_cards.py",
-    "unit_tests": "passed",
-    "live_integration": "pending"
+    "unit_tests": "passed including cross-model agreement",
+    "live_integration": "synthetic smoke passed with refreshed champion and October shadow; matched refreshed smoke pending"
   },
-  "promotions": []
+  "promotions": [],
+  "matchup_research": {
+    "status": "blocked from live use",
+    "future_feature_coverage_pct": 0,
+    "reason": "PBP-derived feature rows unavailable for unplayed games",
+    "champion_uses_block": false
+  }
 }
