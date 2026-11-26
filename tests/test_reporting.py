@@ -27,3 +27,10 @@ def test_duplicate_or_implicit_context_rejected():
     x=pd.DataFrame([row("A","rec_yds",.6,-110)]*2)
     with pytest.raises(ValueError,match="duplicate"): build_cards(x)
     with pytest.raises(ValueError,match="Missing required"): build_cards(x.iloc[:1].drop(columns="context_ok"))
+
+
+def test_shadow_disagreement_retained_in_raw_not_official():
+    x=pd.DataFrame([row("A","rec_yds",.7,-110,v05_agreement=False),row("B","rb_rush_yds",.7,-110,v05_agreement=True)])
+    cards=build_cards(x)
+    assert len(cards["raw_bets"])==2
+    assert cards["official_value"].player_display_name.tolist()==["B"]
