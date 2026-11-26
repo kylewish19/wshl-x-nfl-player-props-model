@@ -1,0 +1,62 @@
+{
+  "version": "0.6.0-workload-shadow",
+  "status": "shadow_only",
+  "calibration_year": 2025,
+  "point_training_cutoff": "2026-11-26T14:27:00Z",
+  "limitations": [
+    "Candidate selection used historical data. No untouched evaluation claim.",
+    "Point fit restricted to research workload eligibility, unlike full champion sample; paired pooled baseline isolates distribution effect.",
+    "No official pick or context gate changes."
+  ],
+  "props": {
+    "qb_pass_yds": {
+      "latest_season": 2026,
+      "latest_week": 12,
+      "live_refit_rows": 3031,
+      "calibration_rows": 575,
+      "minimum_prior_workload": 10,
+      "status": "shadow_only",
+      "volume": "passing_attempts",
+      "bands": [
+        20,
+        30,
+        40
+      ],
+      "stability": true,
+      "group_counts": {
+        "(2, 0)": 280,
+        "(1, 0)": 161,
+        "(3, 0)": 36,
+        "(1, 1)": 33,
+        "(0, 1)": 43,
+        "(0, 0)": 20,
+        "(2, 1)": 2
+      },
+      "minimum_group": 20,
+      "shrink": 100
+    },
+    "rb_rush_yds": {
+      "latest_season": 2026,
+      "latest_week": 12,
+      "live_refit_rows": 6188,
+      "calibration_rows": 1136,
+      "minimum_prior_workload": 2,
+      "status": "shadow_only",
+      "volume": "rushing_attempts",
+      "bands": [
+        5,
+        12,
+        18
+      ],
+      "stability": false,
+      "group_counts": {
+        "(0,)": 269,
+        "(1,)": 443,
+        "(3,)": 107,
+        "(2,)": 317
+      },
+      "minimum_group": 20,
+      "shrink": 100
+    }
+  }
+}
