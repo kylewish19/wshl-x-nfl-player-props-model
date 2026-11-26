@@ -1,0 +1,31 @@
+name: Week 12 game script and QB continuity research
+on:
+  push:
+    paths:
+      - '.github/workflows/audit_2026_w12_gamescript.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/audit_game_script_qb_continuity.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: week12-gamescript-diagnostic
+          path: reports/2026_w12_gamescript_diagnostic.json
+      - name: Record research
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/2026_w12_gamescript_diagnostic.json
+          git commit -m "Record game script and prior QB diagnostic" || exit 0
+          git pull --rebase
+          git push
