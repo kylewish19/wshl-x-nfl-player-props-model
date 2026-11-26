@@ -1,0 +1,42 @@
+name: Week 12 frozen model diagnostic
+on:
+  push:
+    paths:
+      - '.github/workflows/audit_2026_w12_frozen.yml'
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: Restore frozen artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          for id in 10692302469 10666874411; do
+            curl --fail --location --silent --show-error -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/$id/zip" -o "/tmp/$id.zip"
+            unzip -oq "/tmp/$id.zip" -d .
+          done
+      - run: python scripts/update_data.py
+      - run: python scripts/audit_restart_frozen.py
+      - name: Record diagnostic
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/2026_w12_frozen_diagnostic.json
+          git commit -m "Record Week 12 frozen model proxy diagnostic" || exit 0
+          git push
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week12-frozen-diagnostic
+          path: reports/2026_w12_frozen_diagnostic.json
