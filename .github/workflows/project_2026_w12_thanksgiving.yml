@@ -1,0 +1,108 @@
+name: Thanksgiving Week 12 reviewed draft inference
+on:
+  push:
+    paths:
+      - '.github/workflows/project_2026_w12_thanksgiving.yml'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - name: Restore pinned artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for id in 15129935005 15129795747 15138251777; do
+            curl --fail --location --silent --show-error -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/$id/zip" -o "/tmp/$id.zip"
+            unzip -oq "/tmp/$id.zip" -d .
+          done
+      - run: python scripts/update_data.py
+      - name: Audit and split exact board
+        run: |
+          python - <<'PY'
+          import pandas as pd, yaml, json
+          from pathlib import Path
+          from wshlx_nfl_props.data import load_raw
+          from wshlx_nfl_props.features import normalize_player_stats
+          from wshlx_nfl_props.enrichment import _clean_team
+          d=load_raw(); s=d["schedules"]; reg=s[(s.season==2026)&(s.game_type=="REG")].copy()
+          reg["kickoff"]=pd.to_datetime(reg.gameday.astype(str)+" "+reg.gametime.astype(str)).dt.tz_localize("America/New_York").dt.tz_convert("UTC")
+          cutoff=pd.Timestamp("2026-11-26T14:27:00Z")
+          done=reg[reg.kickoff<cutoff]
+          assert len(done)==164 and done[["home_score","away_score"]].notna().all().all()
+          assert reg.loc[reg.kickoff>=cutoff,["home_score","away_score"]].isna().all().all()
+          keys={(int(r.week),_clean_team(t)) for r in done.itertuples() for t in (r.home_team,r.away_team)}
+          for name,cols in {"player_stats":["recent_team","team","club"],"team_stats":["team","recent_team","club"],"snap_counts":["team","recent_team","club"],"pbp":["posteam"]}.items():
+              z=d[name]; col=next(c for c in cols if c in z); z=z[z.season==2026]
+              observed={(int(w),_clean_team(t)) for w,t in zip(z.week,z[col]) if pd.notna(w) and pd.notna(t)}
+              assert observed==keys, name
+          assert set(d["pbp"].loc[d["pbp"].season==2026,"game_id"].dropna().astype(str))==set(done.game_id.astype(str))
+          cfg=yaml.safe_load(Path("config/model_config.yaml").read_text())
+          h=normalize_player_stats(d["player_stats"]); h["team"]=h.team.map(_clean_team)
+          x=pd.read_csv("inputs/live/2026_w12_thanksgiving_props_board.csv"); assert len(x)==157
+          games=pd.read_csv("inputs/live/2026_w12_thanksgiving_game_board.csv")
+          now=pd.Timestamp.now(tz="UTC")
+          valid=[]; rejected=[]
+          for r in x.to_dict("records"):
+              q=reg[(reg.week==12)&(reg.home_team.map(_clean_team)==r["home_team"])&(reg.away_team.map(_clean_team)==r["away_team"])]
+              reason=None
+              if len(q)!=1 or q.kickoff.iloc[0]<=now: reason="not verified pregame"
+              elif r["prop"] not in cfg["models"]: reason="unsupported market"
+              elif r["team"] not in [r["home_team"],r["away_team"]]: reason="unresolved screenshot team"
+              else:
+                  n=h[h.player_display_name.str.lower()==str(r["player_display_name"]).lower()]
+                  if n.player_id.nunique()!=1: reason="unresolved or ambiguous player identity"
+                  elif len(n)<cfg["min_history_games"]: reason="insufficient history"
+                  else:
+                      last=n.sort_values(["season","week"]).iloc[-1]
+                      if last.team!=r["team"] or last.position not in cfg["models"][r["prop"]]["positions"]: reason="latest historical team or position mismatch"
+                      elif ((n.season==2026)&(n.week>=12)).any(): reason="target-week history present"
+              if reason: rejected.append({**r,"reason":reason})
+              else: valid.append(r)
+          out=Path("predictions/drafts/2026_w12_thanksgiving_preflight");out.mkdir(parents=True,exist_ok=False)
+          pd.DataFrame(rejected).to_csv(out/"excluded.csv",index=False)
+          pd.DataFrame(valid).to_csv(out/"eligible.csv",index=False)
+          print("EXCLUDED_ROWS")
+          print(pd.DataFrame(rejected)[["player_display_name","prop","reason"]].to_csv(index=False))
+          print(f"Eligible: {len(valid)}; excluded: {len(rejected)}")
+          assert valid
+          eligible_games=[]
+          for r in games.to_dict("records"):
+              q=reg[(reg.week==12)&(reg.home_team.map(_clean_team)==r["home_team"])&(reg.away_team.map(_clean_team)==r["away_team"])]
+              if len(q)==1 and q.kickoff.iloc[0]>now: eligible_games.append(r)
+          pd.DataFrame(eligible_games).to_csv(out/"games.csv",index=False)
+          PY
+      - name: Execute established player models
+        run: |
+          python scripts/predict_reviewed_week12.py predictions/drafts/2026_w12_thanksgiving_preflight/eligible.csv --outdir predictions/drafts/2026_w12_thanksgiving
+          python - <<'PY'
+          import pandas as pd
+          x=pd.read_csv("predictions/drafts/2026_w12_thanksgiving/predictions.csv")
+          print("PROP_DRAFT_START")
+          print(x.to_csv(index=False))
+          print("PROP_DRAFT_END")
+          PY
+      - name: Execute refreshed game shadow
+        run: |
+          python scripts/predict_game_markets.py predictions/drafts/2026_w12_thanksgiving_preflight/games.csv --out predictions/drafts/2026_w12_thanksgiving/game_shadow.csv --model-root models/game_markets_w12_shadow
+          python - <<'PY'
+          import pandas as pd
+          x=pd.read_csv("predictions/drafts/2026_w12_thanksgiving/game_shadow.csv")
+          print("GAME_DRAFT_START")
+          print(x.to_csv(index=False))
+          print("GAME_DRAFT_END")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nfl-thanksgiving-week12-draft
+          path: |
+            predictions/drafts/2026_w12_thanksgiving*/
+          retention-days: 90
