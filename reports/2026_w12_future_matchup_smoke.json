@@ -1,0 +1,105 @@
+{
+  "status": "smoke_test_only",
+  "cutoff_utc": "2026-11-26 14:27:00+00:00",
+  "games": 3,
+  "rows": 37,
+  "official_artifact_id": 15129935005,
+  "shadow_artifact_id": 15129795747,
+  "shadow_status": "Week 12 refitted shadow, verified against matched cutoff",
+  "limitations": [
+    "Synthetic thresholds, no sportsbook odds or official picks.",
+    "Does not verify current active rosters or real-world player availability."
+  ],
+  "models": {
+    "official_qb_pass_yds": {
+      "n": 7,
+      "finite": true,
+      "numeric_feature_mean_nonnull_pct": 98.26086956521739
+    },
+    "official_qb_pass_tds": {
+      "n": 6,
+      "finite": true,
+      "numeric_feature_mean_nonnull_pct": 98.26086956521739
+    },
+    "official_qb_rush_yds": {
+      "n": 6,
+      "finite": true,
+      "numeric_feature_mean_nonnull_pct": 100
+    },
+    "official_rb_rush_yds": {
+      "n": 6,
+      "finite": true,
+      "numeric_feature_mean_nonnull_pct": 100
+    },
+    "official_rec_yds": {
+      "n": 6,
+      "finite": true,
+      "numeric_feature_mean_nonnull_pct": 100
+    },
+    "official_sack_yes": {
+      "n": 6,
+      "finite": true,
+      "numeric_feature_mean_nonnull_pct": 43.401015228426395
+    },
+    "shadow_qb_pass_yds": {
+      "n": 7,
+      "finite": true,
+      "numeric_feature_mean_nonnull_pct": 98.26086956521739
+    },
+    "shadow_rb_rush_yds": {
+      "n": 6,
+      "finite": true,
+      "numeric_feature_mean_nonnull_pct": 100
+    },
+    "shadow_rec_yds": {
+      "n": 6,
+      "finite": true,
+      "numeric_feature_mean_nonnull_pct": 100
+    }
+  },
+  "official_reporting": {
+    "accuracy_rows": 10,
+    "raw_rows": 26,
+    "official_rows": 0
+  },
+  "shadow_reporting": {
+    "accuracy_rows": 10,
+    "raw_rows": 19,
+    "official_rows": 0
+  },
+  "future_matchup_coverage": {
+    "teamctx_team_dropbacks_r3": 1,
+    "teamctx_team_dropbacks_r5": 1,
+    "teamctx_team_rush_plays_r3": 1,
+    "teamctx_team_rush_plays_r5": 1,
+    "teamctx_sacks_allowed_r3": 1,
+    "teamctx_sacks_allowed_r5": 1,
+    "teamctx_qb_hits_allowed_r3": 1,
+    "teamctx_qb_hits_allowed_r5": 1,
+    "teamctx_opp_dropbacks_faced_r3": 1,
+    "teamctx_opp_dropbacks_faced_r5": 1,
+    "teamctx_opp_rush_plays_faced_r3": 1,
+    "teamctx_opp_rush_plays_faced_r5": 1,
+    "teamctx_defense_sacks_r3": 1,
+    "teamctx_defense_sacks_r5": 1,
+    "teamctx_defense_qb_hits_r3": 1,
+    "teamctx_defense_qb_hits_r5": 1,
+    "oppctx_team_dropbacks_r3": 1,
+    "oppctx_team_dropbacks_r5": 1,
+    "oppctx_team_rush_plays_r3": 1,
+    "oppctx_team_rush_plays_r5": 1,
+    "oppctx_sacks_allowed_r3": 1,
+    "oppctx_sacks_allowed_r5": 1,
+    "oppctx_qb_hits_allowed_r3": 1,
+    "oppctx_qb_hits_allowed_r5": 1,
+    "oppctx_opp_dropbacks_faced_r3": 1,
+    "oppctx_opp_dropbacks_faced_r5": 1,
+    "oppctx_opp_rush_plays_faced_r3": 1,
+    "oppctx_opp_rush_plays_faced_r5": 1,
+    "oppctx_defense_sacks_r3": 1,
+    "oppctx_defense_sacks_r5": 1,
+    "oppctx_defense_qb_hits_r3": 1,
+    "oppctx_defense_qb_hits_r5": 1
+  },
+  "pass": true
+}
