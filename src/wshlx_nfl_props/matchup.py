@@ -66,7 +66,7 @@ def add_matchup_context(base: pd.DataFrame, pbp: pd.DataFrame | None, windows=(3
     for key, prefix in [("team","teamctx_"),("opponent_team","oppctx_")]:
         if key not in x:
             continue
-        labels = x[key].map(_clean_team).to_numpy()
+        labels = x[key].map(_clean_team).fillna("").astype(str).to_numpy()
         values = np.full((len(x), len(cols)), np.nan)
         for team, part in histories.items():
             idx = np.flatnonzero(labels == team)
