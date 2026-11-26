@@ -1,0 +1,31 @@
+name: Week 12 workload distribution experiment
+on:
+  push:
+    paths:
+      - '.github/workflows/audit_2026_w12_workload.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/audit_workload_distributions.py
+      - name: Record historical diagnostic
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/2026_w12_workload_diagnostic.json
+          git commit -m "Record chronological workload distribution results" || exit 0
+          git push
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week12-workload-diagnostic
+          path: reports/2026_w12_workload_diagnostic.json
