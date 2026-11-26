@@ -47,5 +47,22 @@
     "synthetic_rows": 37,
     "models_passed": 9,
     "limitations": "No current roster verification, live sportsbook lines or full CLI test"
+  },
+  "workload_shadow": {
+    "version": "0.6.0-workload-shadow",
+    "artifact_id": 15131142715,
+    "run_id": 45845867075,
+    "model_root": "models/challenger_v06_workload",
+    "refit_report": "reports/2026_w12_workload_shadow_refit.json",
+    "status": "training and artifact upload verified; shadow only; future inference validation pending",
+    "eligible_props": {
+      "qb_pass_yds": {
+        "minimum_prior_workload": 10
+      },
+      "rb_rush_yds": {
+        "minimum_prior_workload": 2
+      }
+    },
+    "official_gate": false
   }
 }
