@@ -1,0 +1,58 @@
+name: Week 12 workload shadow refit
+on:
+  push:
+    paths:
+      - '.github/workflows/refit_2026_w12_workload_shadow.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  refit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - name: Verify training cutoff
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          from wshlx_nfl_props.data import load_raw
+          from wshlx_nfl_props.enrichment import _clean_team
+          a=json.loads(Path("reports/2026_w12_restart_data_audit.json").read_text())
+          assert a["core_pass"]
+          cutoff=pd.Timestamp("2026-11-26T14:27:00Z")
+          d=load_raw()
+          s=d["schedules"]
+          reg=s[(s.season==2026)&(s.game_type=="REG")].copy()
+          reg["kickoff"]=pd.to_datetime(reg.gameday.astype(str)+" "+reg.gametime.astype(str),errors="coerce").dt.tz_localize("America/New_York",ambiguous="NaT",nonexistent="NaT").dt.tz_convert("UTC")
+          assert reg.kickoff.notna().all()
+          expected=reg[reg.kickoff<cutoff]
+          completed=expected[expected.home_score.notna()&expected.away_score.notna()]
+          assert len(completed)==len(expected)==a["completed_games"]==164
+          assert not ((reg.kickoff>=cutoff)&(reg.home_score.notna()|reg.away_score.notna())).any(),"Later games already present; require a new audited cutoff"
+          keys={(int(r.week),_clean_team(t)) for r in completed.itertuples() for t in (r.home_team,r.away_team)}
+          for name,cols in {"player_stats":["recent_team","team","club"],"team_stats":["team","recent_team","club"],"snap_counts":["team","recent_team","club"],"pbp":["posteam"]}.items():
+              x=d[name]
+              col=next(c for c in cols if c in x)
+              x=x[x.season==2026]
+              observed={(int(w),_clean_team(t)) for w,t in zip(x.week,x[col]) if pd.notna(w) and pd.notna(t)}
+              assert observed==keys, f"{name}: missing or unexpected team-weeks"
+          p=d["pbp"]
+          assert set(p.loc[p.season==2026,"game_id"].dropna().astype(str))==set(completed.game_id.astype(str))
+          Path("reports/2026_w12_workload_shadow_cutoff.json").write_text(json.dumps({"cutoff_utc":str(cutoff),"completed_games":len(completed),"status":"verified","previous_artifact":10692302469,"specification":"v0.6.0 workload shadow only"},indent=2))
+          PY
+      - run: python scripts/train_workload_shadow.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nfl-props-v06-workload-shadow-week12
+          retention-days: 90
+          path: |
+            models/challenger_v06_workload/
+            reports/2026_w12_workload_shadow_refit.json
+            reports/2026_w12_workload_shadow_cutoff.json
