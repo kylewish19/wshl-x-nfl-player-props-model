@@ -1,0 +1,10 @@
+game,card,wins,losses,plays,hit_rate_pct,flat_stake_units,roi_pct
+PIT@CLE,top,8,2,10,80,5.1562,51.56
+PIT@CLE,raw,9,2,11,81.82,6.0412,54.92
+PIT@CLE,official,4,0,4,100,3.6164,90.41
+DET@CAR,top,6,4,10,60,1.3097,13.1
+DET@CAR,raw,6,3,9,66.67,2.3097,25.66
+DET@CAR,official,1,0,1,100,0.885,88.5
+ALL,top,14,6,20,70,6.466,32.33
+ALL,raw,15,5,20,75,8.3509,41.75
+ALL,official,5,0,5,100,4.5014,90.03
