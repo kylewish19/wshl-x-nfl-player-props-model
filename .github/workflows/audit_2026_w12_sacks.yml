@@ -1,0 +1,32 @@
+name: Week 12 sack model research
+on:
+  push:
+    paths:
+      - '.github/workflows/audit_2026_w12_sacks.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/audit_sack_defensive_features.py
+      - name: Record research
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/2026_w12_sack_diagnostic.json
+          git commit -m "Record defensive sack benchmark results" || exit 0
+          git pull --rebase
+          git push
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week12-sack-diagnostic
+          path: reports/2026_w12_sack_diagnostic.json
