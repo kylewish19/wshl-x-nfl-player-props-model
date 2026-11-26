@@ -32,9 +32,13 @@
   },
   "promotions": [],
   "matchup_research": {
-    "status": "fix committed; corrected real-data preflight pending; excluded from established models",
-    "future_feature_coverage_pct": 0,
-    "reason": "PBP-derived feature rows unavailable for unplayed games",
+    "status": "future feature construction validated; new model deployment pending prospective evaluation",
+    "future_feature_coverage_pct": 100,
+    "previous_coverage_pct": 0,
+    "validated_rows": 37,
+    "validated_features": 32,
+    "run_id": 45844849982,
+    "report": "reports/2026_w12_future_matchup_smoke.json",
     "champion_uses_block": false
   },
   "validation": {
