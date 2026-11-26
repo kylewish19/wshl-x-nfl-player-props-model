@@ -1,0 +1,118 @@
+name: Week 12 game markets frozen shadow refit
+on:
+  push:
+    paths:
+      - '.github/workflows/refit_2026_w12_game_markets.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  refit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - name: Verify training cutoff
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          from wshlx_nfl_props.data import load_raw
+          from wshlx_nfl_props.enrichment import _clean_team
+          a=json.loads(Path("reports/2026_w12_restart_data_audit.json").read_text())
+          assert a["core_pass"]
+          cutoff=pd.Timestamp("2026-11-26T14:27:00Z")
+          d=load_raw()
+          s=d["schedules"]
+          reg=s[(s.season==2026)&(s.game_type=="REG")].copy()
+          reg["kickoff"]=pd.to_datetime(reg.gameday.astype(str)+" "+reg.gametime.astype(str),errors="coerce").dt.tz_localize("America/New_York",ambiguous="NaT",nonexistent="NaT").dt.tz_convert("UTC")
+          assert reg.kickoff.notna().all()
+          expected=reg[reg.kickoff<cutoff]
+          completed=expected[expected.home_score.notna()&expected.away_score.notna()]
+          assert len(completed)==len(expected)==a["completed_games"]==164
+          assert not ((reg.kickoff>=cutoff)&(reg.home_score.notna()|reg.away_score.notna())).any(),"Later games already present; require a new audited cutoff"
+          keys={(int(r.week),_clean_team(t)) for r in completed.itertuples() for t in (r.home_team,r.away_team)}
+          for name,cols in {"player_stats":["recent_team","team","club"],"team_stats":["team","recent_team","club"],"snap_counts":["team","recent_team","club"],"pbp":["posteam"]}.items():
+              x=d[name]
+              col=next(c for c in cols if c in x)
+              x=x[x.season==2026]
+              observed={(int(w),_clean_team(t)) for w,t in zip(x.week,x[col]) if pd.notna(w) and pd.notna(t)}
+              assert observed==keys, f"{name}: missing or unexpected team-weeks"
+          p=d["pbp"]
+          assert set(p.loc[p.season==2026,"game_id"].dropna().astype(str))==set(completed.game_id.astype(str))
+          Path("reports/2026_w12_game_markets_cutoff.json").write_text(json.dumps({"cutoff_utc":str(cutoff),"completed_games":len(completed),"status":"verified","previous_artifact":10670106852,"specification":"v0.1 frozen game markets shadow only"},indent=2))
+          PY
+      - name: Restore original frozen game-market artifact
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl --fail --location --silent --show-error -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/kylewish19/wshl-x-nfl-player-props-model/actions/artifacts/10670106852/zip" -o /tmp/game.zip
+          unzip -q /tmp/game.zip -d .
+      - name: Refit unchanged specifications and validate future rows
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import numpy as np
+          import pandas as pd
+          from sklearn.base import clone
+          from wshlx_nfl_props.data import load_raw
+          from wshlx_nfl_props.game_features import build_game_frame
+          from wshlx_nfl_props.game_models import load_game_model,save_game_model
+          d=load_raw()
+          s=d["schedules"]
+          frame=build_game_frame(s,d["team_stats"],d["pbp"],windows=(3,5,8))
+          frame=frame[frame.season.between(2021,2026)].copy()
+          assert not frame.duplicated(["season","week","home_team","away_team"]).any()
+          assert frame.loc[frame.season.eq(2026),"target_total"].notna().sum()==164
+          future=frame[(frame.season==2026)&(frame.week==12)&frame.target_total.isna()].copy()
+          assert len(future)>0
+          root="models/game_markets_w12_shadow"
+          report={"status":"shadow_only","version":"0.1.0-frozen-refit","cutoff":"2026-11-26T14:27:00Z","source_artifact":10670106852,"completed_games":164,"future_rows":len(future),"models":{},"limitations":["Original features and calibration retained; no new algorithm selection.","Historical schedule weather may not be original pregame snapshots.","Synthetic readiness only, no FanDuel input or actual picks.","Integer lines need explicit push treatment; moneyline probabilities conditional on non-tie.","No proven advantage over market baseline."]}
+          for market in ["home_points","away_points","margin","total","home_win"]:
+              m=load_game_model(market)
+              cols=m.numeric_features+m.categorical_features
+              assert set(cols).issubset(frame.columns)
+              target="target_"+market
+              f=frame[frame[target].notna()].copy()
+              if m.kind=="binary":
+                  f=f[f.target_tie==0].copy()
+              for c in m.categorical_features:
+                  f[c]=f[c].astype(object).where(f[c].notna(),"__MISSING__").astype(str)
+                  future[c]=future[c].astype(object).where(future[c].notna(),"__MISSING__").astype(str)
+              lag=[c for c in m.numeric_features if c.endswith("_lag1")]
+              assert lag
+              coverage=float(future[lag].notna().mean().mean())
+              assert coverage>0.8, f"Insufficient future lag coverage: {coverage}"
+              if m.kind!="binary":
+                  assert len(m.residuals)>=20 and np.isfinite(m.residuals).all()
+              m.pipeline=clone(m.pipeline).fit(f[cols],f[target])
+              m.validation_metrics={**m.validation_metrics,"live_refit_rows":len(f),"refit_cutoff":report["cutoff"]}
+              save_game_model(m,root)
+              restored=load_game_model(market,root)
+              pred=restored.predict(future[cols])
+              assert np.isfinite(pred).all()
+              if m.kind=="binary":
+                  assert ((pred>=0)&(pred<=1)).all()
+              else:
+                  p1=restored.probability_over(future[cols],0.5)
+                  p2=restored.probability_over(future[cols],1.5)
+                  assert np.isfinite(p1).all() and np.all(p1>=p2)
+              report["models"][market]={"algorithm":m.estimator_name,"training_rows":len(f),"residual_count":len(m.residuals),"future_lag_coverage":coverage,"serialized_inference":"passed"}
+          Path("reports/2026_w12_game_markets_refit.json").write_text(json.dumps(report,indent=2))
+          print(json.dumps(report,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nfl-game-markets-week12-frozen-shadow
+          retention-days: 90
+          path: |
+            models/game_markets_w12_shadow/
+            reports/2026_w12_game_markets_refit.json
+            reports/2026_w12_game_markets_cutoff.json
