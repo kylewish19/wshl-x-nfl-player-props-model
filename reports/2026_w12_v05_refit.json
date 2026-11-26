@@ -1,0 +1,35 @@
+{
+  "version": "0.5.0-shadow",
+  "source_artifact_id": 10666874411,
+  "status": "fixed_spec_refit",
+  "calibration": "Original historical out-of-fold residuals preserved",
+  "props": {
+    "qb_pass_yds": {
+      "algorithm": "decomposed_random_forest_random_forest",
+      "feature_set": "pregame",
+      "training_rows": 3259,
+      "efficiency_rows": 3138,
+      "latest_season": 2026,
+      "latest_week": 12,
+      "residual_count": 1871
+    },
+    "rb_rush_yds": {
+      "algorithm": "decomposed_elastic_net_elastic_net",
+      "feature_set": "baseline",
+      "training_rows": 8233,
+      "efficiency_rows": 6671,
+      "latest_season": 2026,
+      "latest_week": 12,
+      "residual_count": 4555
+    },
+    "rec_yds": {
+      "algorithm": "decomposed_elastic_net_elastic_net",
+      "feature_set": "baseline",
+      "training_rows": 20623,
+      "efficiency_rows": 16542,
+      "latest_season": 2026,
+      "latest_week": 12,
+      "residual_count": 11559
+    }
+  }
+}
