@@ -1,0 +1,79 @@
+name: November 26 Week 12 data restart audit
+on:
+  push:
+    paths:
+      - '.github/workflows/audit_2026_w12_restart.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt && pip install -e .
+      - run: python scripts/update_data.py
+      - run: python scripts/audit_data.py
+      - name: Check completed game and team-week coverage
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          from wshlx_nfl_props.data import load_raw
+          from wshlx_nfl_props.features import TARGET_ALIASES, USAGE_ALIASES
+          d=load_raw()
+          cutoff=pd.Timestamp("2026-11-26T14:27:00Z")
+          s=d["schedules"].copy()
+          reg=s[(s.season==2026)&(s.game_type=="REG")].copy()
+          reg["kickoff"]=pd.to_datetime(reg.gameday.astype(str)+" "+reg.gametime.astype(str),errors="coerce").dt.tz_localize("America/New_York",ambiguous="NaT",nonexistent="NaT").dt.tz_convert("UTC")
+          expected=reg[(reg.week<=11)|((reg.week==12)&(reg.kickoff<cutoff))].copy()
+          completed=expected[expected.home_score.notna()&expected.away_score.notna()]
+          missing_scores=expected.loc[~expected.game_id.isin(completed.game_id),"game_id"].tolist()
+          aliases={"OAK":"LV","SD":"LAC","STL":"LA","LAR":"LA","JAC":"JAX","WSH":"WAS"}
+          def team(x): return str(x).upper().strip() if str(x).upper().strip() not in aliases else aliases[str(x).upper().strip()]
+          expected_teams={(int(row.week),team(t)) for row in completed.itertuples() for t in [row.home_team,row.away_team]}
+          def coverage(name, team_columns):
+              x=d.get(name,pd.DataFrame())
+              col=next((c for c in team_columns if c in x.columns),None)
+              if x.empty or not {"season","week"}.issubset(x.columns) or not col:
+                  return {"present":False,"covered":0,"expected":len(expected_teams),"missing":sorted(expected_teams)}
+              x=x[(x.season==2026)&(x.week<=12)]
+              actual={(int(w),team(t)) for w,t in zip(x.week,x[col]) if pd.notna(w) and pd.notna(t)}
+              return {"present":True,"covered":len(expected_teams&actual),"expected":len(expected_teams),"missing":sorted(expected_teams-actual),"rows":int(len(x)),"unexpected_team_weeks":sorted(actual-expected_teams)}
+          coverage_map={n:coverage(n,cols) for n,cols in {
+              "player_stats":["recent_team","team","club"],
+              "team_stats":["team","recent_team","club"],
+              "snap_counts":["team","recent_team","club"],
+              "weekly_rosters":["team","recent_team","club"],
+              "pbp":["posteam"],
+          }.items()}
+          p=d.get("pbp",pd.DataFrame())
+          pbp_ids=set(p.game_id.dropna().astype(str)) if "game_id" in p else set()
+          missing_pbp=sorted(set(completed.game_id.astype(str))-pbp_ids)
+          required={k:next((c for c in v if c in d["player_stats"].columns),None) for k,v in {**TARGET_ALIASES,**USAGE_ALIASES}.items()}
+          report={"cutoff_utc":str(cutoff),"expected_games":len(expected),"completed_games":len(completed),"missing_scores":missing_scores,"by_week":[{"week":int(w),"expected":int(len(g)),"completed":int(g.home_score.notna().mul(g.away_score.notna()).sum())} for w,g in expected.groupby("week")],"team_week_coverage":coverage_map,"missing_pbp_game_ids":missing_pbp,"player_stat_column_map":required,"optional_tables":{n:{"rows":int(len(x)),"latest_2026_week":int(x.loc[x.season==2026,"week"].max()) if {"season","week"}.issubset(x.columns) and x.loc[x.season==2026,"week"].notna().any() else None} for n,x in d.items()}}
+          report["core_pass"]=bool(len(expected)>0 and not missing_scores and all(not coverage_map[n]["missing"] for n in ["player_stats","team_stats","pbp"]) and not missing_pbp and all(required[k] is not None for k in ["passing_yards","passing_tds","rushing_yards","receiving_yards","def_sacks","passing_attempts","rushing_attempts","targets","receptions"]))
+          Path("reports/2026_w12_restart_data_audit.json").write_text(json.dumps(report,indent=2,default=str))
+          print(json.dumps(report,indent=2,default=str))
+          PY
+      - name: Preserve audit evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/2026_w12_restart_data_audit.json reports/data_audit.json
+          git commit -m "Record November 26 restart data coverage audit" || exit 0
+          git push
+      - name: Gate subsequent training
+        run: python -c 'import json; assert json.load(open("reports/2026_w12_restart_data_audit.json"))["core_pass"], "Core data coverage incomplete; do not refit"'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week12-restart-audit
+          path: |
+            reports/2026_w12_restart_data_audit.json
+            reports/data_audit.json
