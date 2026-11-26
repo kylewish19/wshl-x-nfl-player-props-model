@@ -50,5 +50,12 @@ def build_cards(predictions: pd.DataFrame, *, top_n: int = 10):
     top = x.loc[x.validity_ok].sort_values(["model_probability", *KEY], ascending=[False]+[True]*len(KEY)).head(top_n).copy()
     top.insert(0, "rank", range(1, len(top)+1))
     raw = x.loc[x.status.eq("BET")].copy()
-    official = raw.loc[raw.validity_ok & raw.context_ok & raw.price_ok].copy()
+    # Preserve the established cross-model direction gate for shared markets.
+    if "v05_agreement" in x.columns:
+        if not pd.api.types.is_bool_dtype(x["v05_agreement"]) or x["v05_agreement"].isna().any():
+            raise ValueError("v05_agreement must be explicit boolean")
+        agreement = raw["v05_agreement"]
+    else:
+        agreement = pd.Series(True, index=raw.index)
+    official = raw.loc[raw.validity_ok & raw.context_ok & raw.price_ok & agreement].copy()
     return {"top10_accuracy":top, "raw_bets":raw, "official_value":official, "audit":x}
