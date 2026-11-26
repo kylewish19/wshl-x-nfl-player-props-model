@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-26T14:27:00Z",
-  "status": "matched_refits_verified_joint_preflight_pending",
+  "status": "ready_for_reviewed_drafts",
   "completed_games": 164,
   "official": {
     "version": "0.3.0",
@@ -19,7 +19,7 @@
     "training_through": "2026 Week 12 completed games at pinned cutoff",
     "refit_report": "reports/2026_w12_v05_refit.json",
     "previous_artifact_id": 10666874411,
-    "status": "training and artifact upload succeeded; joint preflight pending"
+    "status": "refit and matched synthetic pregame validation passed"
   },
   "game_markets": {
     "status": "shadow_only"
@@ -28,13 +28,20 @@
     "helper": "src/wshlx_nfl_props/reporting.py",
     "entrypoint": "scripts/build_reviewed_cards.py",
     "unit_tests": "passed including cross-model agreement",
-    "live_integration": "synthetic smoke passed with refreshed champion and October shadow; matched refreshed smoke pending"
+    "live_integration": "matched synthetic pregame validation passed; real FanDuel input and context review still required"
   },
   "promotions": [],
   "matchup_research": {
-    "status": "blocked from live use",
+    "status": "fix committed; corrected real-data preflight pending; excluded from established models",
     "future_feature_coverage_pct": 0,
     "reason": "PBP-derived feature rows unavailable for unplayed games",
     "champion_uses_block": false
+  },
+  "validation": {
+    "run_id": 45844285099,
+    "report": "reports/2026_w12_matched_smoke.json",
+    "synthetic_rows": 37,
+    "models_passed": 9,
+    "limitations": "No current roster verification, live sportsbook lines or full CLI test"
   }
 }
