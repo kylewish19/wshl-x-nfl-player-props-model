@@ -1,0 +1,251 @@
+{
+  "status": "research_only",
+  "method": "Same Elastic Net estimator, historical expanding train/calibration/test. Game-script candidates use schedule pregame lines and lagged team/opponent PBP. Prior-QB continuity is known from preceding team games only.",
+  "limitations": [
+    "Historical closing schedule lines may differ from actual prediction-time FanDuel lines.",
+    "Prior-QB change is NOT a verified current-game starter change; no use of current-game QB identity in feature values.",
+    "Conditional on recorded player participation; proxy thresholds, no betting ROI.",
+    "Historical evaluation years previously used in model development. No official model changes.",
+    "Live matchup feature availability needs separate verification."
+  ],
+  "props": {
+    "rb_rush_yds": {
+      "folds": [
+        {
+          "year": 2024,
+          "scores": {
+            "baseline": {
+              "n": 1156,
+              "mae": 23.190603923466146,
+              "brier": 0.23578594394432345,
+              "log_loss": 0.6689516962610467,
+              "accuracy": 0.615916955017301
+            },
+            "game_script": {
+              "n": 1156,
+              "mae": 23.0798834622778,
+              "brier": 0.23548106910860098,
+              "log_loss": 0.6687571328910447,
+              "accuracy": 0.615916955017301
+            },
+            "game_script_prior_qb": {
+              "n": 1156,
+              "mae": 23.079759598101294,
+              "brier": 0.23546928153308028,
+              "log_loss": 0.6687171596746979,
+              "accuracy": 0.615916955017301
+            }
+          },
+          "prior_qb_change_diagnostic": {
+            "0": {
+              "n": 172,
+              "over_hit_rate": 0.5755813953488372,
+              "mean_probability": 0.6843245917862444
+            },
+            "1": {
+              "n": 26,
+              "over_hit_rate": 0.5769230769230769,
+              "mean_probability": 0.6855973813420622
+            }
+          }
+        },
+        {
+          "year": 2025,
+          "scores": {
+            "baseline": {
+              "n": 1136,
+              "mae": 22.829907654496207,
+              "brier": 0.2247553237222451,
+              "log_loss": 0.6417269847554323,
+              "accuracy": 0.6285211267605634
+            },
+            "game_script": {
+              "n": 1136,
+              "mae": 22.808672474454422,
+              "brier": 0.2244464231954568,
+              "log_loss": 0.6410194781117462,
+              "accuracy": 0.6285211267605634
+            },
+            "game_script_prior_qb": {
+              "n": 1136,
+              "mae": 22.820179801395987,
+              "brier": 0.22440225088452917,
+              "log_loss": 0.6408380067585783,
+              "accuracy": 0.6285211267605634
+            }
+          },
+          "prior_qb_change_diagnostic": {
+            "0": {
+              "n": 147,
+              "over_hit_rate": 0.5782312925170068,
+              "mean_probability": 0.6790598592378129
+            },
+            "1": {
+              "n": 27,
+              "over_hit_rate": 0.5925925925925926,
+              "mean_probability": 0.687908496732026
+            }
+          }
+        }
+      ],
+      "game_script_features": [
+        "pregame_team_spread",
+        "pregame_total_line",
+        "pregame_home",
+        "pregame_rest",
+        "teamctx_team_dropbacks_r3",
+        "teamctx_team_dropbacks_r5",
+        "teamctx_team_rush_plays_r3",
+        "teamctx_team_rush_plays_r5",
+        "teamctx_sacks_allowed_r3",
+        "teamctx_sacks_allowed_r5",
+        "teamctx_qb_hits_allowed_r3",
+        "teamctx_qb_hits_allowed_r5",
+        "teamctx_opp_dropbacks_faced_r3",
+        "teamctx_opp_dropbacks_faced_r5",
+        "teamctx_opp_rush_plays_faced_r3",
+        "teamctx_opp_rush_plays_faced_r5",
+        "teamctx_defense_sacks_r3",
+        "teamctx_defense_sacks_r5",
+        "teamctx_defense_qb_hits_r3",
+        "teamctx_defense_qb_hits_r5",
+        "oppctx_team_dropbacks_r3",
+        "oppctx_team_dropbacks_r5",
+        "oppctx_team_rush_plays_r3",
+        "oppctx_team_rush_plays_r5",
+        "oppctx_sacks_allowed_r3",
+        "oppctx_sacks_allowed_r5",
+        "oppctx_qb_hits_allowed_r3",
+        "oppctx_qb_hits_allowed_r5",
+        "oppctx_opp_dropbacks_faced_r3",
+        "oppctx_opp_dropbacks_faced_r5",
+        "oppctx_opp_rush_plays_faced_r3",
+        "oppctx_opp_rush_plays_faced_r5",
+        "oppctx_defense_sacks_r3",
+        "oppctx_defense_sacks_r5",
+        "oppctx_defense_qb_hits_r3",
+        "oppctx_defense_qb_hits_r5"
+      ],
+      "prior_qb_feature_coverage": 0.907269083621789
+    },
+    "rec_yds": {
+      "folds": [
+        {
+          "year": 2024,
+          "scores": {
+            "baseline": {
+              "n": 2612,
+              "mae": 20.974369441903576,
+              "brier": 0.22652023123207246,
+              "log_loss": 0.6459987519012633,
+              "accuracy": 0.6301684532924962
+            },
+            "game_script": {
+              "n": 2612,
+              "mae": 21.049486347330745,
+              "brier": 0.2262819680713773,
+              "log_loss": 0.6453384581252424,
+              "accuracy": 0.6316998468606432
+            },
+            "game_script_prior_qb": {
+              "n": 2612,
+              "mae": 21.049486343911624,
+              "brier": 0.2262819680713773,
+              "log_loss": 0.6453384581252424,
+              "accuracy": 0.6316998468606432
+            }
+          },
+          "prior_qb_change_diagnostic": {
+            "0": {
+              "n": 360,
+              "over_hit_rate": 0.6111111111111112,
+              "mean_probability": 0.6805035177552974
+            },
+            "1": {
+              "n": 41,
+              "over_hit_rate": 0.7073170731707317,
+              "mean_probability": 0.7174332215409078
+            }
+          }
+        },
+        {
+          "year": 2025,
+          "scores": {
+            "baseline": {
+              "n": 2561,
+              "mae": 20.916624040712666,
+              "brier": 0.22518861158757417,
+              "log_loss": 0.6421676025375295,
+              "accuracy": 0.6333463490823897
+            },
+            "game_script": {
+              "n": 2561,
+              "mae": 21.13644818142644,
+              "brier": 0.22504039119638725,
+              "log_loss": 0.6418133010678883,
+              "accuracy": 0.6270987895353377
+            },
+            "game_script_prior_qb": {
+              "n": 2561,
+              "mae": 21.140091140032222,
+              "brier": 0.22509081249992005,
+              "log_loss": 0.6419065489906649,
+              "accuracy": 0.6259273721202655
+            }
+          },
+          "prior_qb_change_diagnostic": {
+            "0": {
+              "n": 451,
+              "over_hit_rate": 0.5676274944567627,
+              "mean_probability": 0.685069422043239
+            },
+            "1": {
+              "n": 58,
+              "over_hit_rate": 0.6724137931034483,
+              "mean_probability": 0.6924077203358505
+            }
+          }
+        }
+      ],
+      "game_script_features": [
+        "pregame_team_spread",
+        "pregame_total_line",
+        "pregame_home",
+        "pregame_rest",
+        "teamctx_team_dropbacks_r3",
+        "teamctx_team_dropbacks_r5",
+        "teamctx_team_rush_plays_r3",
+        "teamctx_team_rush_plays_r5",
+        "teamctx_sacks_allowed_r3",
+        "teamctx_sacks_allowed_r5",
+        "teamctx_qb_hits_allowed_r3",
+        "teamctx_qb_hits_allowed_r5",
+        "teamctx_opp_dropbacks_faced_r3",
+        "teamctx_opp_dropbacks_faced_r5",
+        "teamctx_opp_rush_plays_faced_r3",
+        "teamctx_opp_rush_plays_faced_r5",
+        "teamctx_defense_sacks_r3",
+        "teamctx_defense_sacks_r5",
+        "teamctx_defense_qb_hits_r3",
+        "teamctx_defense_qb_hits_r5",
+        "oppctx_team_dropbacks_r3",
+        "oppctx_team_dropbacks_r5",
+        "oppctx_team_rush_plays_r3",
+        "oppctx_team_rush_plays_r5",
+        "oppctx_sacks_allowed_r3",
+        "oppctx_sacks_allowed_r5",
+        "oppctx_qb_hits_allowed_r3",
+        "oppctx_qb_hits_allowed_r5",
+        "oppctx_opp_dropbacks_faced_r3",
+        "oppctx_opp_dropbacks_faced_r5",
+        "oppctx_opp_rush_plays_faced_r3",
+        "oppctx_opp_rush_plays_faced_r5",
+        "oppctx_defense_sacks_r3",
+        "oppctx_defense_sacks_r5",
+        "oppctx_defense_qb_hits_r3",
+        "oppctx_defense_qb_hits_r5"
+      ],
+      "prior_qb_feature_coverage": 0.9037779004653363
+    }
+  }
+}
