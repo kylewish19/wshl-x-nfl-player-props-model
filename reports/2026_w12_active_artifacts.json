@@ -1,0 +1,30 @@
+{
+  "as_of": "2026-11-26T14:27:00Z",
+  "status": "refit_verified_live_preflight_pending",
+  "completed_games": 164,
+  "official": {
+    "version": "0.3.0",
+    "artifact_id": 15129935005,
+    "run_id": 45841735760,
+    "model_root": "models/official",
+    "specification": "config/champion_specs.yaml",
+    "refit_report": "reports/2026_w12_champion_refit.json",
+    "previous_artifact_id": 10692302469
+  },
+  "shadow": {
+    "version": "0.5.0-shadow",
+    "artifact_id": 10666874411,
+    "training_through": "2026 Week 2",
+    "status": "older frozen weights; fixed-spec refit needed for matched comparison"
+  },
+  "game_markets": {
+    "status": "shadow_only"
+  },
+  "reporting": {
+    "helper": "src/wshlx_nfl_props/reporting.py",
+    "entrypoint": "scripts/build_reviewed_cards.py",
+    "unit_tests": "passed",
+    "live_integration": "pending"
+  },
+  "promotions": []
+}
