@@ -1,0 +1,106 @@
+{
+  "adv_def": {
+    "rows": 44850,
+    "columns": 29,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "adv_pass": {
+    "rows": 3854,
+    "columns": 24,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "adv_rec": {
+    "rows": 25348,
+    "columns": 17,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "adv_rush": {
+    "rows": 13167,
+    "columns": 16,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "injuries": {
+    "rows": 32888,
+    "columns": 17,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "ngs_passing": {
+    "rows": 3418,
+    "columns": 29,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 23
+  },
+  "ngs_receiving": {
+    "rows": 8219,
+    "columns": 23,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 23
+  },
+  "ngs_rushing": {
+    "rows": 3478,
+    "columns": 22,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 23
+  },
+  "pbp": {
+    "rows": 275918,
+    "columns": 372,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "player_stats": {
+    "rows": 106252,
+    "columns": 150,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "schedules": {
+    "rows": 7548,
+    "columns": 46,
+    "min_season": 1999,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "snap_counts": {
+    "rows": 147928,
+    "columns": 16,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "team_stats": {
+    "rows": 3176,
+    "columns": 138,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "weekly_rosters": {
+    "rows": 261214,
+    "columns": 36,
+    "min_season": 2021,
+    "max_season": 2026,
+    "max_week": 22
+  },
+  "current_player_stats": {
+    "season": 2026,
+    "latest_week": 12,
+    "rows": 11404,
+    "players": 1839
+  }
+}

@@ -1,0 +1,305 @@
+{
+  "cutoff_utc": "2026-11-26 14:27:00+00:00",
+  "expected_games": 164,
+  "completed_games": 164,
+  "missing_scores": [],
+  "by_week": [
+    {
+      "week": 1,
+      "expected": 16,
+      "completed": 16
+    },
+    {
+      "week": 2,
+      "expected": 16,
+      "completed": 16
+    },
+    {
+      "week": 3,
+      "expected": 16,
+      "completed": 16
+    },
+    {
+      "week": 4,
+      "expected": 16,
+      "completed": 16
+    },
+    {
+      "week": 5,
+      "expected": 15,
+      "completed": 15
+    },
+    {
+      "week": 6,
+      "expected": 14,
+      "completed": 14
+    },
+    {
+      "week": 7,
+      "expected": 14,
+      "completed": 14
+    },
+    {
+      "week": 8,
+      "expected": 14,
+      "completed": 14
+    },
+    {
+      "week": 9,
+      "expected": 15,
+      "completed": 15
+    },
+    {
+      "week": 10,
+      "expected": 14,
+      "completed": 14
+    },
+    {
+      "week": 11,
+      "expected": 13,
+      "completed": 13
+    },
+    {
+      "week": 12,
+      "expected": 1,
+      "completed": 1
+    }
+  ],
+  "team_week_coverage": {
+    "player_stats": {
+      "present": true,
+      "covered": 328,
+      "expected": 328,
+      "missing": [],
+      "rows": 11404,
+      "unexpected_team_weeks": []
+    },
+    "team_stats": {
+      "present": true,
+      "covered": 328,
+      "expected": 328,
+      "missing": [],
+      "rows": 328,
+      "unexpected_team_weeks": []
+    },
+    "snap_counts": {
+      "present": true,
+      "covered": 328,
+      "expected": 328,
+      "missing": [],
+      "rows": 15311,
+      "unexpected_team_weeks": []
+    },
+    "weekly_rosters": {
+      "present": true,
+      "covered": 328,
+      "expected": 328,
+      "missing": [],
+      "rows": 29272,
+      "unexpected_team_weeks": [
+        [
+          12,
+          "ARI"
+        ],
+        [
+          12,
+          "ATL"
+        ],
+        [
+          12,
+          "BAL"
+        ],
+        [
+          12,
+          "BUF"
+        ],
+        [
+          12,
+          "CAR"
+        ],
+        [
+          12,
+          "CHI"
+        ],
+        [
+          12,
+          "CIN"
+        ],
+        [
+          12,
+          "CLE"
+        ],
+        [
+          12,
+          "DAL"
+        ],
+        [
+          12,
+          "DEN"
+        ],
+        [
+          12,
+          "DET"
+        ],
+        [
+          12,
+          "HOU"
+        ],
+        [
+          12,
+          "IND"
+        ],
+        [
+          12,
+          "JAX"
+        ],
+        [
+          12,
+          "KC"
+        ],
+        [
+          12,
+          "LAC"
+        ],
+        [
+          12,
+          "LV"
+        ],
+        [
+          12,
+          "MIA"
+        ],
+        [
+          12,
+          "MIN"
+        ],
+        [
+          12,
+          "NE"
+        ],
+        [
+          12,
+          "NO"
+        ],
+        [
+          12,
+          "NYG"
+        ],
+        [
+          12,
+          "NYJ"
+        ],
+        [
+          12,
+          "PHI"
+        ],
+        [
+          12,
+          "PIT"
+        ],
+        [
+          12,
+          "SEA"
+        ],
+        [
+          12,
+          "SF"
+        ],
+        [
+          12,
+          "TB"
+        ],
+        [
+          12,
+          "TEN"
+        ],
+        [
+          12,
+          "WAS"
+        ]
+      ]
+    },
+    "pbp": {
+      "present": true,
+      "covered": 328,
+      "expected": 328,
+      "missing": [],
+      "rows": 28634,
+      "unexpected_team_weeks": []
+    }
+  },
+  "missing_pbp_game_ids": [],
+  "player_stat_column_map": {
+    "passing_yards": "passing_yards",
+    "passing_tds": "passing_tds",
+    "rushing_yards": "rushing_yards",
+    "receiving_yards": "receiving_yards",
+    "def_sacks": "def_sacks",
+    "passing_attempts": "attempts",
+    "completions": "completions",
+    "rushing_attempts": "carries",
+    "targets": "targets",
+    "receptions": "receptions",
+    "def_qb_hits": "def_qb_hits",
+    "def_tackles": null
+  },
+  "optional_tables": {
+    "ngs_rushing": {
+      "rows": 3478,
+      "latest_2026_week": 12
+    },
+    "weekly_rosters": {
+      "rows": 261214,
+      "latest_2026_week": 12
+    },
+    "team_stats": {
+      "rows": 3176,
+      "latest_2026_week": 12
+    },
+    "ngs_receiving": {
+      "rows": 8219,
+      "latest_2026_week": 12
+    },
+    "injuries": {
+      "rows": 32888,
+      "latest_2026_week": 12
+    },
+    "snap_counts": {
+      "rows": 147928,
+      "latest_2026_week": 12
+    },
+    "adv_rush": {
+      "rows": 13167,
+      "latest_2026_week": 11
+    },
+    "ngs_passing": {
+      "rows": 3418,
+      "latest_2026_week": 12
+    },
+    "adv_rec": {
+      "rows": 25348,
+      "latest_2026_week": 11
+    },
+    "adv_def": {
+      "rows": 44850,
+      "latest_2026_week": 11
+    },
+    "adv_pass": {
+      "rows": 3854,
+      "latest_2026_week": 11
+    },
+    "schedules": {
+      "rows": 7548,
+      "latest_2026_week": 18
+    },
+    "player_stats": {
+      "rows": 106252,
+      "latest_2026_week": 12
+    },
+    "pbp": {
+      "rows": 275918,
+      "latest_2026_week": 12
+    }
+  },
+  "core_pass": true
+}
